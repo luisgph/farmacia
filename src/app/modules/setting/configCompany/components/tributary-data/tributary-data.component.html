@@ -1,0 +1,48 @@
+<form [formGroup]="tributaryData" (submit)="saveData()" autocomplete="off">
+    <div class="row gx--24 gy--24">
+        <h2 class="subtitle mb--24">Información tributaria</h2>
+        <div class="col-12 col-md-4">
+            <div class="field" appRequired>
+                <label>Tipo de empresa</label>
+                <p-dropdown [options]="companyTypes" optionLabel="nombre" [filter]="true" filterBy="nombre"
+                    appendTo="body" formControlName="companyType" placeholder="Tipo de empresa"
+                    [ngClass]="bgInput('companyType', true)"></p-dropdown>
+                <app-control-messages *ngIf="isSubmitted" [isSubmitted]="isSubmitted" class="txtErrorInput"
+                    [control]="tributaryData.controls['companyType']" inputName="tipo de empresa">
+                </app-control-messages>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="field">
+                <label><span class="asterisk">*</span>Actividad económica</label>
+                <p-dropdown [options]="economicActivities" optionLabel="nombre"
+                    [filter]="economicActivities.length > 10" filterBy="nombre" appendTo="body"
+                    formControlName="economicActivity" placeholder="Actividad económica"
+                    [ngClass]="bgInput('economicActivity', true)"></p-dropdown>
+                <app-control-messages *ngIf="isSubmitted" [isSubmitted]="isSubmitted" class="txtErrorInput"
+                    [control]="tributaryData.controls['economicActivity']" inputName="Actividad económica">
+                </app-control-messages>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="field">
+                <label><span class="asterisk">*</span>Tipo de régimen</label>
+                <p-dropdown [options]="regimenTypes" optionLabel="nombre" [filter]="regimenTypes.length > 10"
+                    filterBy="nombre" appendTo="body" formControlName="regimenType" placeholder="Tipo de régimen"
+                    [ngClass]="bgInput('regimenType', true)"></p-dropdown>
+                <app-control-messages *ngIf="isSubmitted" [isSubmitted]="isSubmitted" class="txtErrorInput"
+                    [control]="tributaryData.controls['regimenType']" inputName="tipo de régimen">
+                </app-control-messages>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end gap--24">
+            <button type="button" class="btn-outline-1" (click)="back()" pButton label="Volver"></button>
+            <button type="submit" class="btn-primary" pButton [label]="btnTxt"></button>
+        </div>
+        <div class="d-flex justify-content-end gap--24 mt--24">
+            <button type="button" class="btn-outline-1" [routerLink]="['/setting/company/consult']" pButton
+                label="Cancelar proceso"></button>
+        </div>
+    </div>
+</form>

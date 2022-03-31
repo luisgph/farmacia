@@ -1,0 +1,142 @@
+<main>
+    <app-alerts-messages [alertType]="alertType" *ngIf="showAlert" (stateAlert)="stateAlertMessege($event)"
+        [messageAlertSuccess]="messageAlertSuccess" [messageAlertError]="messageAlertError"></app-alerts-messages>
+    <section class="mainForm">
+        <form [formGroup]="rateTypeData">
+            <section class="row mainForm_section">
+                <div class="col">
+                    <div class="d-lg-flex d-md-flex d-blok justify-content-between">
+                        <div class="justify-content-start">
+                            <h1 class="mainForm_title">{{ title }}</h1>
+                        </div>
+                        <div class="justify-content-end align-self-start">
+                            <button type="submit" class="btn-outline-1" pButton (click)="create()"
+                                [hidden]="!isSectionEdit">{{ "rateIvaType.titleCreate" | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+            <section class="row g-3" *ngIf="!isSectionEdit">
+                <div class="col-12 col-lg-8">
+                    <div class="field">
+                        <label><span class="asterisk">{{ constText.asterisk }}</span>{{ "rateIvaType.name" |
+                            translate}}</label>
+                        <input formControlName="nameField" [ngClass]="bgInput('nameField')" type="text"
+                            [placeholder]="placeHolderName" pInputText maxlength="8000" />
+                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                            [control]="rateTypeData.controls['nameField']" [inputName]="nameInput">
+                        </app-control-messages>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4" *ngIf="isUpdate">
+                    <label>{{ "nameState" | translate }}</label>
+                    <div class="field marginTopRadio">
+                        <div class="form-check form-check-inline">
+                            <label><br><input class="form-check-input" formControlName="stateField" type="radio"
+                                    value="A" name="stateField">
+                                {{ "nameActive" | translate }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <label><br><input class="form-check-input" formControlName="stateField" type="radio"
+                                    value="I" name="stateField">
+                                {{ "nameInactive" | translate }}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-lg-12" *ngIf="isUpdate">
+                    <div class="field">
+                        <label><span class="asterisk">{{constText.asterisk}}</span>{{ "observations" |
+                            translate}}</label>
+                        <textarea formControlName="observationsField" [ngClass]="bgInput('observationsField')"
+                            [rows]="5" cols="60" pInputTextarea [autoResize]="true" [placeholder]="observations"
+                            pInputText maxlength="8000">
+                        </textarea>
+                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                            [control]="rateTypeData.controls['observationsField']" [inputName]="observations">
+                        </app-control-messages>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="d-flex flex-wrap justify-content-end gap--24">
+                        <button type="submit" class="btn-outline-1" pButton (click)="cancel()">{{ "cancel" | translate
+                            }}</button>
+                        <button type="submit" class="btn-primary" pButton (click)="save()"
+                            label="{{ labelCreateUpdate }}"></button>
+                    </div>
+                </div>
+            </section>
+            <section class="row  g-3" *ngIf="isSectionEdit">
+                <div class="col">
+                    <p-table #dt dataKey="id" [value]="dataRateIvaType" responsiveLayout="stack" [paginator]="true"
+                        [rows]="10" [rowsPerPageOptions]="[10,25,50]"
+                        [globalFilterFields]="['id','nombre','nombreEstado','observaciones']">
+                        <ng-template pTemplate="caption">
+                            <h2>{{ "results" | translate}}</h2>
+
+                            <span class="float-end table-search">
+                                <input pInputText type="text" (input)="applyFilterGlobal($event)"
+                                    placeholder="{{ placeHolderSearch }}" />
+                                <i class="pi pi-search"></i>
+                            </span>
+                        </ng-template>
+
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th scope="col" pSortableColumn="id">
+                                    {{ "rateIvaType.code" | translate }}
+                                    <p-sortIcon field="id"></p-sortIcon>
+                                    <p-columnFilter type="text" field="id" display="menu" class="ml-auto">
+                                    </p-columnFilter>
+                                </th>
+                                <th scope="col" pSortableColumn="nombre">
+                                    {{ "rateIvaType.name" | translate }}
+                                    <p-sortIcon field="nombre"></p-sortIcon>
+                                    <p-columnFilter type="text" field="nombre" display="menu" class="ml-auto">
+                                    </p-columnFilter>
+                                </th>
+                                <th scope="col" pSortableColumn="observaciones">
+                                    {{ "observations" | translate }}
+                                    <p-sortIcon field="observaciones"></p-sortIcon>
+                                    <p-columnFilter type="text" field="observaciones" display="menu" class="ml-auto">
+                                    </p-columnFilter>
+                                </th>
+                                <th scope="col" pSortableColumn="nombreEstado">
+                                    {{'nameState' | translate}}
+                                    <p-sortIcon field="nombreEstado"></p-sortIcon>
+                                    <p-columnFilter type="text" field="nombreEstado" display="menu" class="ml-auto">
+                                    </p-columnFilter>
+                                </th>
+                                <th scope="col" class="columnAction">{{ "actions" | translate}}</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-rateIvaType>
+                            <tr>
+                                <td>{{rateIvaType.id}}</td>
+                                <td>{{rateIvaType.nombre}}</td>
+                                <td>{{rateIvaType.observaciones | slice : 0:100 }}</td>
+                                <td><span class="badge rounded-pill "
+                                        [ngClass]="{'bg-success': rateIvaType.estado ,
+                                        'bg-secondary': !rateIvaType.estado}">
+                                        {{rateIvaType.estado | state}}</span> </td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                        <button pButton pRipple icon="pi pi-pencil" class="p-button-edit"
+                                            (click)="editBasicCatalogs( rateIvaType )"></button>
+                                        <button pButton pRipple icon="pi pi-trash" class="p-button-delete"
+                                            (click)="deleteRateIvaType( rateIvaType )"></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="8">{{ "notFound" | translate }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </section>
+        </form>
+    </section>
+</main>

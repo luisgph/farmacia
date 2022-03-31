@@ -1,0 +1,323 @@
+<main>
+    <section class="mainForm row">
+        <section class="row">
+            <div class="col">
+                <div class="d-lg-flex d-md-flex d-blok justify-content-between">
+                    <div class="justify-content-start">
+                        <h1 class="mainForm_title">Consultar empresas</h1>
+                    </div>
+                    <div class="justify-content-end align-self-start">
+                        <button type="submit" class="btn btn-outline-1" (click)="createCompany()" pButton
+                            label="Crear empresa" [hidden]="false"></button>
+                    </div>
+                </div>
+            </div>
+
+            <form [formGroup]="companyConsultForm">
+                <div class="row gy-3" [ngClass]="{'': showAdvanced, 'mb-5': !showAdvanced}">
+                    <div class="col-12 col-md-4">
+                        <div class="field">
+                            <label>Nombre de la empresa</label>
+                            <input formControlName="name" [ngClass]="bgInput('name')" type="text"
+                                placeholder="Nombre de la empresa" pInputText />
+                            <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                                [control]="companyConsultForm.controls['name']" inputName="nombre de la empresa">
+                            </app-control-messages>
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <div class="field">
+                            <label>NIT de la empresa</label>
+                            <input formControlName="nit" [ngClass]="bgInput('nit')" type="text"
+                                placeholder="NIT de la empresa" pInputText />
+                            <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                                [control]="companyConsultForm.controls['nit']" inputName="NIT de la empresa">
+                            </app-control-messages>
+                        </div>
+                    </div>
+
+                    <h3 class="advancedConsult" onkeydown="" [ngClass]="{'advancedConsultClicked': !showAdvanced,
+                         'advancedConsultNotClicked': showAdvanced}" (click)="advancedConsult()">Consulta avanzada</h3>
+
+                    <section class="row gy-3" *ngIf="showAdvanced">
+                        <div class="col-12 col-md-4">
+                            <div class="field">
+                                <label>Departamento de la empresa</label>
+                                <p-dropdown [options]="departments" optionLabel="nombre" [showClear]="true"
+                                    [filter]="departments.length > 10" filterBy="nombre" appendTo="body"
+                                    formControlName="department" placeholder="Departamento de la empresa"
+                                    [ngClass]="bgInput('city', true)"></p-dropdown>
+                                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput"
+                                    [isSubmitted]="isSubmitted" [control]="companyConsultForm.controls['department']"
+                                    inputName="Departamento de la empresa"></app-control-messages>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <div class="field">
+                                <label>Ciudad</label>
+                                <p-dropdown [options]="cities" [showClear]="true" optionLabel="nombre"
+                                    [filter]="cities.length > 10" filterBy="nombre" [showClear]="true" appendTo="body"
+                                    formControlName="city" placeholder="Ciudad" [ngClass]="bgInput('city', true)">
+                                </p-dropdown>
+                                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput"
+                                    [isSubmitted]="isSubmitted" [control]="companyConsultForm.controls['city']"
+                                    inputName="Ciudad"></app-control-messages>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <div class="field">
+                                <label>Tipo de empresa</label>
+                                <p-dropdown [options]="companyTypes" [showClear]="true" optionLabel="nombre"
+                                    [filter]="companyTypes.length > 10" filterBy="nombre" appendTo="body"
+                                    formControlName="companyType" placeholder="Tipo de empresa"
+                                    [ngClass]="bgInput('companyType, true')"></p-dropdown>
+                                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput"
+                                    [isSubmitted]="isSubmitted" [control]="companyConsultForm.controls['city']"
+                                    inputName="Tipo de empresa"></app-control-messages>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <div class="field">
+                                <label>Actividad económica</label>
+                                <p-dropdown [options]="economicActivities" [showClear]="true" optionLabel="nombre"
+                                    [filter]="economicActivities.length > 10" filterBy="nombre" appendTo="body"
+                                    formControlName="economicActivity" placeholder="Actividad económica"
+                                    [ngClass]="bgInput('economicActivities', true)"></p-dropdown>
+                                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput"
+                                    [isSubmitted]="isSubmitted" [control]="companyConsultForm.controls['city']"
+                                    inputName="Actividad económica"></app-control-messages>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <div class="field">
+                                <label>Tipo de régimen</label>
+                                <p-dropdown [options]="regimenTypes" [showClear]="true" optionLabel="nombre"
+                                    [filter]="regimenTypes.length > 10" filterBy="nombre" appendTo="body"
+                                    formControlName="regimenType" placeholder="Tipo de régimen"
+                                    [ngClass]="bgInput('regimenType', true)"></p-dropdown>
+                                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput"
+                                    [isSubmitted]="isSubmitted" [control]="companyConsultForm.controls['regimenType']"
+                                    inputName="Tipo regimen"></app-control-messages>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <div class="field">
+                                <label>Fecha de creación de la empresa</label>
+                                <p-calendar inputId="basic" appendTo="body" formControlName="dateCreated"
+                                    [showIcon]="true" dateFormat="yy-mm-dd"></p-calendar>
+                                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput"
+                                    [isSubmitted]="isSubmitted" [control]="companyConsultForm.controls['dateCreated']"
+                                    inputName="Fecha de creación de la empresa"></app-control-messages>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-4">
+                            <label>{{ "nameState" | translate }}</label>
+                            <div class="field marginTopRadio">
+                                <div class="form-check form-check-inline">
+                                    <label><br><input class="form-check-input" type="radio" value="A"
+                                            formControlName="state" id="activeRadio">
+                                        {{ "nameActive" | translate }}</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <label><br>
+                                        <input class="form-check-input" type="radio" value="I" [attr.disabled]="true"
+                                            formControlName="state" id="activeRadio">
+                                        {{ "nameInactive" | translate }}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+                </div>
+
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-primary" type="button" (click)="companyConsult()">Consultar empresa</button>
+                </div>
+            </form>
+
+        </section>
+        <section class="row">
+            <div class="col">
+                <p-table #dt [value]="companies" selectionMode="single" [rowHover]="true" responsiveLayout="scroll"
+                    [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10,25,50]"
+                    [globalFilterFields]="['numeroIdentificacion', 'nombre', 'nombreEstado']"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
+                    <ng-template pTemplate="caption">
+                        <div class="d-flex justify-content-between height--100">
+                            <h2 class="align-self-center">Resultados</h2>
+
+                            <span class="table-search">
+                                <input type="text" (input)="applyFilterGlobal($event, 'contains')"
+                                    placeholder="Buscar en tabla los resultados" pInputText />
+                                <i class="pi pi-search"></i>
+                            </span>
+                        </div>
+                    </ng-template>
+
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th scope="col" pSortableColumn="nombre">
+                                Nombre de la empresa
+                                <p-sortIcon field="nombre"></p-sortIcon>
+                                <p-columnFilter type="text" field="nombre" display="menu" class="ml-auto">
+                                </p-columnFilter>
+                            </th>
+                            <th scope="col" pSortableColumn="numeroIdentificacion">
+                                NIT de la empresa
+                                <p-sortIcon field="numeroIdentificacion"></p-sortIcon>
+                                <p-columnFilter type="text" field="numeroIdentificacion" display="menu" class="ml-auto">
+                                </p-columnFilter>
+                            </th>
+                            <th scope="col" pSortableColumn="nombreEstado">
+                                Estados
+                                <p-sortIcon field="nombreEstado"></p-sortIcon>
+                                <p-columnFilter type="text" field="nombreEstado" display="menu" class="ml-auto">
+                                </p-columnFilter>
+                            </th>
+                            <th scope="col" class="text-center">
+                                Acción
+                            </th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-company let-rowIndex="rowIndex">
+                        <tr class="p-selectable-row">
+                            <td><span class="p-column-title">nombre</span>{{ company.nombre }}</td>
+                            <td><span class="p-column-title">nit</span>{{ company.numeroIdentificacion }}</td>
+                            <td>
+                                <span class="p-column-title">{{'nameState' | translate}}</span>
+                                <div>
+                                    <span class="badge rounded-pill "
+                                        [ngClass]="{'bg-success': company.estado ,'bg-secondary': !company.estado}">
+                                        {{company.estado | state}}</span>
+                                </div>
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group flex-wrap" role="group" aria-label="Basic outlined example">
+                                    <button pButton pRipple icon="pi pi-pencil" class="p-button-edit"
+                                        (click)="edit(company.id)"></button>
+                                    <button pButton pRiple icon="pi pi-eye" class="p-button-view"
+                                        (click)="view(company)"></button>
+                                    <button pButton pRipple icon="pi pi-trash" class="p-button-delete"
+                                        (click)="delete(company, rowIndex)"></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td colspan="8">{{ "notFound" | translate }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </section>
+
+    </section>
+
+</main>
+
+<p-dialog header="Detalle de la empresa" [draggable]="false" [(visible)]="displayModal" [style]="{width: '80vw'}"
+    [modal]="true">
+    <section class="row">
+        <div class="col-12 col-md-3">
+            <div class="field">
+                <label>Nombre de la empresa</label>
+                <p>{{ companyView?.nombre }}</p>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="field">
+                <label>Razón social</label>
+                <p>{{ companyView?.razonSocial }}</p>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="field">
+                <label>Tipo de identificación</label>
+                <p>{{ companyView?.tipoIdentificacion.nombre }}</p>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="field">
+                <label>{{ companyView?.tipoIdentificacion.nombre }}</label>
+                <p>{{ companyView?.numeroIdentificacion }}<span
+                        *ngIf="companyView?.tipoIdentificacion.nombre === 'NIT'">-{{ companyView.digitoVerificacion
+                        }}</span></p>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="field">
+                <label>Número de matrícula mercantil</label>
+                <p>{{ companyView?.matriculaMercantil }}</p>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="field">
+                <label>Número telefónico</label>
+                <p>{{ companyView?.telefono }}</p>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="field">
+                <label>Correo electrónico</label>
+                <p>{{ companyView?.correo }}</p>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="field">
+                <label>Departamento de la empresa</label>
+                <p>{{ companyView?.departamento }}</p>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="field">
+                <label>Ciudad</label>
+                <p>{{ companyView?.ciudad }}</p>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="field">
+                <label>Tipo de empresa</label>
+                <p>{{ companyView?.tipoEmpresa.nombre }}</p>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="field">
+                <label>Actividad económica</label>
+                <p>{{ companyView?.actividadEconomica.nombre }}</p>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="field">
+                <label>Tipo de régimen</label>
+                <p>{{ companyView?.tipoRegimen.nombre }}</p>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="field">
+                <label>Fecha de creación de la empresa</label>
+                <p>{{ companyView?.fechaRegistro | date: 'yyyy-MM-dd' }}</p>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="field">
+                <label>Estado</label>
+                <div>
+                    <span class="badge rounded-pill "
+                        [ngClass]="{'bg-success': companyView?.estado ,'bg-secondary': !companyView?.estado}">
+                        {{companyView?.estado | state}}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+    <ng-template pTemplate="footer">
+        <button class="btn-outline-1" label="Cerrar" (click)="displayModal = false;" pButton></button>
+    </ng-template>
+</p-dialog>

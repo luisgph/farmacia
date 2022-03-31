@@ -1,0 +1,198 @@
+<main>
+    <section class="mainForm row">
+        <section class="row mainForm_section">
+            <div class="col">
+                <div class="d-lg-flex d-md-flex d-blok justify-content-between">
+                    <div class="justify-content-start">
+                        <h1 class="mainForm_title">{{'pharmacy.consultPharmacy' | translate}}</h1>
+                    </div>
+                    <div class="justify-content-end align-self-start">
+                        <button class="btn btn-outline-1" pButton [routerLink]="['/setting/pharmacy',num.zero]" 
+                                label="{{ 'pharmacy.createPharmacy' | translate }}"></button>
+                    </div>
+                </div>
+            </div>
+            
+            <form (ngSubmit)="searchPharmacy()" [formGroup]="pharmacyData" autocomplete="off">
+                <div class="row mb-3 boxTax">
+                    <div class="col-md-4">
+                        <div class="field">
+                            <label>{{ "pharmacy.codePharmacy" | translate }}</label>
+                            <input type="number" formControlName="pharmacyCode" styleClass="input-mask" 
+                                   placeholder="{{'codeConsult' | translate}}"
+                                   appTypeNumbers="nature,10">
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="field">
+                            <label>{{ "pharmacy.namePharmacy" | translate }}</label>
+                            <input type="text" formControlName="pharmacyName" 
+                                   placeholder="{{'pharmacy.namePharmacy' | translate}}"/>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="field boxTax_check">
+                            <label>{{"nameRegion" | translate}}</label>
+                            <p-multiSelect [options]="regions" optionLabel="nombre" 
+                                           selectedItemsLabel="{0} items seleccionados" 
+                                           placeholder="{{ 'selectRegion' | translate }}" 
+                                           formControlName="idRegion">
+                            </p-multiSelect>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <div class="field">
+                            <label>{{ "pharmacy.companyPharmacy" | translate }}</label>
+                            <p-dropdown [options]="companies" optionLabel="nombre" appendTo="body"
+                                        formControlName="idCompanyAssociate"
+                                        placeholder="{{'pharmacy.selectCompany' | translate}}" [filter]="true"
+                                        filterBy="nombre" [showClear]="true">
+                            </p-dropdown>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label>{{ "nameState" | translate }}</label>
+                        <div class="field marginTopRadio">
+                            <div class="form-check form-check-inline">
+                                <label><br><input class="form-check-input" onkeydown="" type="radio" 
+                                                  (click)="searchState(true)" name="pharmacyState" checked>
+                                       {{"nameActive" | translate}}</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label><br><input class="form-check-input" onkeydown="" type="radio" 
+                                    (click)="searchState(false)" name="pharmacyState">
+                                    {{"nameInactive" | translate}}</label>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col-md-4">
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn-primary marginTop" pButton 
+                                    label="{{'pharmacy.consultPharmacy' | translate}}"></button>
+                        </div>
+                    </div>    
+                </div>       
+            </form>
+        </section>    
+        <section class="row ">
+            <div class="col">
+                <p-table #dt dataKey="codigo" [value]="pharmacyListTable" [rows]="10" [paginator]="true"
+                         [rowsPerPageOptions]="[10,25,50]" [filterDelay]="0" [rowHover]="true" responsiveLayout="stack"
+                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                         [globalFilterFields]="['codigo','nombre','nombreEstado']">
+                    <ng-template pTemplate="caption">
+                        <h2>{{ "results" | translate}}</h2>
+                        <span class="float-end table-search">
+                            <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+                                   placeholder="{{ 'search' | translate}}"/>
+                            <i class="pi pi-search"></i>
+                        </span>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th scope="col" pSortableColumn="codigo">
+                                {{ "pharmacy.codePharmacy" | translate }}
+                                <p-sortIcon field="codigo"></p-sortIcon>
+                                <p-columnFilter type="text" field="codigo" display="menu" class="ml-auto">
+                                </p-columnFilter>
+                            </th>
+                            <th scope="col" pSortableColumn="nombre">
+                                {{ "pharmacy.namePharmacy" | translate }}
+                                <p-sortIcon field="nombre"></p-sortIcon>
+                                <p-columnFilter type="text" field="nombre" display="menu" class="ml-auto">
+                                </p-columnFilter>
+                            </th>
+                            <th scope="col" pSortableColumn="nombreEstado">
+                                {{'nameState' | translate}}
+                                <p-sortIcon field="nombreEstado"></p-sortIcon>
+                                <p-columnFilter type="text" field="nombreEstado" display="menu" class="ml-auto">
+                                </p-columnFilter>
+                            </th>
+                            <th class="width-8rem" scope="col">{{'actions' | translate}}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-customer>
+                        <tr class="p-selectable-row">
+                            <td>
+                                <span class="p-column-title">{{"pharmacy.codePharmacy" | translate }}</span> 
+                                {{customer.codigo}}
+                            </td>
+                            <td>
+                                <span class="p-column-title">{{"pharmacy.namePharmacy" | translate }}</span> 
+                                {{customer.nombre}}
+                            </td>
+                            <td>
+                                <span class="p-column-title">{{'nameState' | translate}}</span>
+                                <div>
+                                    <span class="badge rounded-pill" 
+                                          [ngClass]="{'bg-success': customer.estado,'bg-secondary': !customer.estado}">
+                                        {{customer.estado | state}}</span>
+                                </div>
+                            </td>                           
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                    <button pButton pRipple icon="pi pi-pencil" class="p-button-edit" 
+                                            [routerLink]="['/setting/pharmacy',customer.id]"></button>
+                                    <button pButton pRiple icon="pi pi-eye" class="p-button-view" 
+                                            (click)="view(customer.id)"></button>
+                                    <button pButton pRipple icon="pi pi-trash" class="p-button-delete" 
+                                            (click)="deletePharmacy(customer)"></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr><td colspan="8">{{ "notFound" | translate }}</td></tr>
+                    </ng-template>
+                </p-table>
+            </div>            
+        </section>
+    </section>
+</main>
+
+
+<p-dialog header="Detalle de la Drogueria" [(visible)]="displayModal" [style]="{width: '80vw'}" [modal]="true">
+    <section class="row">
+        <div class="col-12 col-md-3">
+            <div class="field">
+                <label>{{ "pharmacy.codePharmacy" | translate }}</label>
+                <p>{{ pharmacyView?.codigo }}</p>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="field">
+                <label>{{ "pharmacy.namePharmacy" | translate }}</label>
+                <p>{{ pharmacyView?.nombre }}</p>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="field">
+                <label>{{ "nameNeighborhood" | translate }}</label>
+                <p>{{ pharmacyView?.barrio }}</p>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="field">
+                <label>{{ "pharmacy.homeAddress" | translate }}</label>
+                <p>{{ pharmacyView?.direccion }}</p>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="field">
+                <label>{{ "nameState" | translate }}</label>
+                <span class="badge rounded-pill " 
+                      [ngClass]="{'bg-success': pharmacyView?.estado ,'bg-secondary': !pharmacyView?.estado}">
+                      {{pharmacyView?.estado | state}}</span>
+            </div>
+        </div>        
+    </section>
+    <ng-template pTemplate="footer">
+        <button class="btn-outline-1" label="Cerrar" (click)="displayModal = false;"  pButton></button>
+    </ng-template>
+</p-dialog>

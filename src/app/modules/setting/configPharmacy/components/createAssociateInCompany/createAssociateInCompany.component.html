@@ -1,0 +1,1021 @@
+<main>
+    <section>
+        <div class="alert alert-danger d-flex align-items-center animated" [class.fadeOut]="isFadeOut" 
+             role="alert" *ngIf="isStateMessage">
+            <span class="material-icons-outlined">highlight_off</span>{{messageText}}
+        </div> 
+    </section>
+    <section class="mainForm p--24">
+        <section class="mainForm_section">
+            <h1 class="mainForm_title">{{titlePag}}</h1>
+            <section class="row mb-5">
+                <div class="boxSteps">
+                    <p-steps [model]="menuSteps" [(activeIndex)]="activeIndex"></p-steps>
+                </div>
+            </section>
+
+            <form (ngSubmit)="saveForm()" [formGroup]="pharmacyData" autocomplete="off">
+                <div class="row gx--24 gy--24">
+                    <div *ngIf="isVisibleDataBasic">
+            
+                        <div class="row mb-3"><h2 class="subtitles">{{"basicData" | translate}}</h2></div>
+                
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-6 col-lg-4">
+                                <div class="field">
+                                    <label><span class="asterisk">{{text.asterisk}}</span> {{"nameCode" | translate}}
+                                    </label>                
+                                    <input type="number" formControlName="pharmacyCode" 
+                                           [ngClass]="bgInput('pharmacyCode')" styleClass="input-mask" 
+                                           appTypeNumbers="nature,10" pInputText
+                                           placeholder="{{'maxCode' | translate}}">
+                                    <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                          [isSubmitted]="isSubmitted" 
+                                                          [control]="pharmacyData.controls['pharmacyCode']" 
+                                                          inputName="{{'nameCode' | translate}}">
+                                    </app-control-messages>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 col-lg-8">
+                                <div class="field">
+                                    <label>{{ "pharmacy.loadLogo" | translate }}</label>
+                                    <div class="p-inputgroup">
+                                        <input class="hoverFile" type="text" value="{{nameLogo}}" 
+                                        placeholder="{{'pharmacy.searchImagePharmacy' | translate}}" disabled>      
+                                        <span class="p-inputgroup-addon" (click)="file.click()" 
+                                              onkeydown="">{{ "nameAdd" | translate}}</span>
+                                        <input #file type="file" accept="image/*" (change)="validFileImage($event)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-4">
+                                <div class="field">
+                                    <label><span class="asterisk">{{text.asterisk}}</span> 
+                                        {{"pharmacy.namePharmacy" | translate}}</label>
+                                    <input type="text" formControlName="pharmacyName" 
+                                           [ngClass]="bgInput('pharmacyName')" 
+                                           placeholder="{{'pharmacy.namePharmacy' | translate}}" pInputText/>
+                                    <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                          [control]="pharmacyData.controls['pharmacyName']" 
+                                                        inputName="{{'pharmacy.namePharmacy' | translate}}"
+                                                        [isSubmitted]="isSubmitted">
+                                    </app-control-messages>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="field">
+                                    <label><span class="asterisk">{{text.asterisk}}</span> {{"nameRegion" | translate}}
+                                    </label>
+                                    <p-dropdown [options]="regions" optionLabel="nombre" appendTo="body" 
+                                                formControlName="idRegion" [ngClass]="bgInput('idRegion', true)" 
+                                                placeholder="{{'nameRegion' | translate}}" [showClear]="true">
+                                    </p-dropdown>
+                                    <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                          [control]="pharmacyData.controls['idRegion']" 
+                                                          inputName="{{'nameRegion' | translate}}"
+                                                          [isSubmitted]="isSubmitted">
+                                    </app-control-messages>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="field">
+                                    <label><span class="asterisk">{{text.asterisk}}</span>
+                                            {{"nameDepartment" | translate}}</label>
+                                    <p-dropdown [options]="departments" optionLabel="nombre" 
+                                                appendTo="body" formControlName="idDepartment" 
+                                                [ngClass]="bgInput('idDepartment', true)" 
+                                                placeholder="{{'nameDepartment' | translate}}"
+                                                [filter]="true" filterBy="nombre" [showClear]="true">
+                                    </p-dropdown>
+                                    <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                          [isSubmitted]="isSubmitted" 
+                                                          [control]="pharmacyData.controls['idDepartment']" 
+                                                          inputName="{{'nameDepartment' | translate}}">
+                                    </app-control-messages>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-4">
+                                <div class="field">
+                                    <label><span class="asterisk">{{text.asterisk}}</span> 
+                                        {{"nameCity" | translate}}</label>
+                                    <p-dropdown [options]="cities" optionLabel="nombre" 
+                                                appendTo="body" formControlName="idCity"  
+                                                [ngClass]="bgInput('idCity', true)" 
+                                                placeholder="{{'nameCity' | translate}}"
+                                                [filter]="true" filterBy="nombre" [showClear]="true">
+                                    </p-dropdown>
+                                    <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                          [isSubmitted]="isSubmitted" 
+                                                          [control]="pharmacyData.controls['idCity']" 
+                                                          inputName="{{'nameCity' | translate}}">
+                                    </app-control-messages>
+                                </div>
+                            </div>
+                            
+                            <div class="col-12 col-md-4">
+                                <div class="field">
+                                    <label><span class="asterisk">{{text.asterisk}}</span>
+                                        {{"nameNeighborhood" | translate}}</label>
+                                    <input type="text" formControlName="neighborhoodName" 
+                                           [ngClass]="bgInput('neighborhoodName')" 
+                                           placeholder="{{'nameNeighborhood' | translate}}" pInputText/>
+                                    <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                          [isSubmitted]="isSubmitted" 
+                                                          [control]="pharmacyData.controls['neighborhoodName']" 
+                                                          inputName="{{'nameNeighborhood' | translate}}">
+                                    </app-control-messages>
+                                </div>
+                            </div>
+                        
+                            <div class="col-12 col-md-4">
+                                <div class="field">
+                                    <label><span class="asterisk">{{text.asterisk}}</span>
+                                        {{"pharmacy.associateInCompany" | translate}}</label>
+                                    <p-dropdown [options]="companies" optionLabel="nombre" 
+                                                appendTo="body" formControlName="idCompanyAssociate"
+                                                [ngClass]="bgInput('idCompanyAssociate', true)" 
+                                                placeholder="{{'pharmacy.associateInCompany' | translate}}"
+                                                [filter]="true" filterBy="nombre" [showClear]="true">
+                                    </p-dropdown>
+                                    <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                          [isSubmitted]="isSubmitted" 
+                                                          [control]="pharmacyData.controls['idCompanyAssociate']"
+                                                          inputName="{{'pharmacy.associateInCompany' | translate}}">
+                                    </app-control-messages>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div *ngIf="isInfoCompany">
+                            <div class="row" >
+                                <section class="marginDetail">
+                                    <div class="row mb-2">
+                                        <div class="col-12 col-md-1">
+                                            <div class="roundIcon">
+                                                <span class="material-icons">maps_home_work</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-11">
+                                            <h2 class="marginDetailTitle">Empresa asociada</h2>
+                                        </div>
+                                    </div>
+                                    
+                                    <hr class="lineCompany">
+    
+                                    <div class="row styleConten">
+                                        <div class="col-12 col-md-3">
+                                            <div class="field">
+                                                <label>{{"Nombre de la empresa" | translate}}</label>
+                                                <p>{{companySelect?.nombre}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-3">
+                                            <div class="field">
+                                                <label>{{"Razón social" | translate}}</label>
+                                                <p>{{companySelect?.razonSocial}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-3">
+                                            <div class="field">
+                                                <label>{{"Tipo de identificación" | translate}}</label>
+                                                <p>{{companySelect?.tipoIdentificacion}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-3">
+                                            <div class="field">
+                                                <label>{{"Número identificación" | translate}}</label>
+                                                <p>{{companySelect?.numeroIdentificacion}}</p>
+                                            </div>
+                                        </div>
+            
+                                        <div class="col-12 col-md-3">
+                                            <div class="field">
+                                                <label>{{"Número de matrícula mercantil" | translate}}</label>
+                                                <p>{{companySelect?.matriculaMercantil}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-3">
+                                            <div class="field">
+                                                <label>{{"Número de teléfono" | translate}}</label>
+                                                <p>{{companySelect?.telefono}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-3">
+                                            <div class="field">
+                                                <label>{{"Correo eletrónico" | translate}}</label>
+                                                <p>{{companySelect?.correo}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>                        
+                            </div>
+                        </div>
+
+                        <div class="row mb-3"><h2 class="subtitles">{{"businessHours" | translate}}</h2></div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-4"> 
+                                <div class="field"><label>{{"weekdays.title" | translate}}</label></div>
+
+                                <div class="field">
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" class="checkboxRound" 
+                                               id="idChkDo" formControlName="daySu"/>
+                                        <label title="{{'weekdays.sunday' | translate}}"for="idChkDo">
+                                               {{"weekdays.su" | translate}}</label>
+                                    </div>
+                                    <div class="form-check form-check-inline ">
+                                        <input type="checkbox" class="checkboxRound" 
+                                               id="idChkLu" formControlName="dayMo"/>
+                                        <label title="{{ 'weekdays.monday' | translate }}" for="idChkLu">
+                                               {{"weekdays.mo" | translate}}</label> 
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" class="checkboxRound" 
+                                               id="idChkMa" formControlName="dayTu"/>
+                                        <label title="{{'weekdays.tuesday' | translate}}" 
+                                               for="idChkMa">{{"weekdays.tu" | translate}}</label> 
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" class="checkboxRound" 
+                                               id="idChkMi" formControlName="dayWe"/>
+                                        <label title="{{ 'weekdays.wednesday' | translate }}" for="idChkMi">
+                                               {{"weekdays.we" | translate}}</label> 
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" class="checkboxRound" 
+                                               id="idChkJu" formControlName="dayTh"/>
+                                        <label title="{{'weekdays.thursday' | translate}}" for="idChkJu">
+                                               {{"weekdays.th" | translate}}</label> 
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" class="checkboxRound" 
+                                               id="idChkVi" formControlName="dayFr"/>
+                                        <label title="{{'weekdays.friday' | translate}}" for="idChkVi">
+                                               {{"weekdays.fr" | translate}}</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input type="checkbox" class="checkboxRound" 
+                                               id="idChkSa" formControlName="daySa"/>
+                                        <label title="{{ 'weekdays.saturday' | translate }}" 
+                                               for="idChkSa">{{ "weekdays.sa" | translate }}</label> 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="field">
+                                    <label>{{ "openingTime" | translate }}</label>                            
+                                    <div class="iconClock">
+                                        <input  type="text" onkeydown="" (click)="visibleOpeningTime()"
+                                                placeholder="{{'openingTime' | translate}}" value="{{timeOpen}}"   
+                                                readonly="readonly"/>
+                                    </div>                            
+                                    <div [style.display]="viewOpeningTime ? 'block' : 'none'">
+                                        <timepicker formControlName="timeOpening" [meridians]="meridians"></timepicker>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <div class="field">
+                                    <label>{{ "closingTime" | translate }}</label>
+                                    <div class="iconClock">
+                                        <input type="text" onkeydown="" 
+                                               placeholder="{{'closingTime' | translate}}" 
+                                               (click)="visibleClosingTime()" value="{{timeClous}}"
+                                               readonly="readonly"/>
+                                    </div>                            
+                                    <div [style.display]="viewClosingTime ? 'block' : 'none'">
+                                        <timepicker formControlName="timeClosing" [meridians]="meridians"></timepicker>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3"><h2 class="subtitles">{{"pharmacy.homeAddress" | translate}}</h2></div>
+                        
+                        <div class="col-12 col-md-12">
+                            <p class="mainForm_alertText"><span>{{"important" | translate}}:</span> 
+                                {{"allAddressFields" | translate}}</p>
+                            <div class="row gy-3 mt-6 mb-6">
+                                <div class="col-12 col-md-4">
+                                    <div class="field ">
+                                        <p-dropdown [options]="listSelect.listAddress" optionLabel="nombre" 
+                                                    appendTo="body" formControlName="address1" 
+                                                    [ngClass]="bgInput('address1', true)" 
+                                                    placeholder="{{ 'avenueStreet' | translate }}" [showClear]="true">
+                                        </p-dropdown>
+                                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                              [isSubmitted]="isSubmitted" 
+                                                              [control]="pharmacyData.controls['address1']">
+                                        </app-control-messages>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="field">
+                                        <input type="number" styleClass="input-mask" 
+                                               placeholder="{{text.sixtySix}}" formControlName="address2" 
+                                               [ngClass]="bgInput('address2')" pInputText
+                                               appTypeNumbers="nature,3"/>
+                                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                              [isSubmitted]="isSubmitted" 
+                                                              [control]="pharmacyData.controls['address2']">
+                                        </app-control-messages>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="field">
+                                        <p-dropdown [options]="listSelect.listCoordinate" 
+                                                    optionLabel="nombre" appendTo="body" 
+                                                    formControlName="address3"
+                                                    placeholder="Sur" [filter]="true" filterBy="nombre" 
+                                                    [showClear]="true">
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="field">
+                                        <input type="number" styleClass="input-mask" 
+                                               placeholder="{{text.sixtyEight}}" formControlName="address4" 
+                                               [ngClass]="bgInput('address4')" pInputText
+                                               appTypeNumbers="nature,3"/>
+                                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                        [isSubmitted]="isSubmitted" 
+                                                        [control]="pharmacyData.controls['address4']">
+                                        </app-control-messages>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="field">
+                                        <p-dropdown [options]="listSelect.listAlphabet" 
+                                                    optionLabel="nombre" appendTo="body" formControlName="address5"
+                                                    placeholder="G" [filter]="true" filterBy="nombre" 
+                                                    [showClear]="true">
+                                        </p-dropdown>
+                                    </div>
+                                </div>
+
+                                <div class="col">
+                                    <div class="field">
+                                        <input type="number" styleClass="input-mask" placeholder="{{text.eighteen}}" 
+                                               formControlName="address6" [ngClass]="bgInput('address6')" pInputText
+                                               appTypeNumbers="nature,3"/>
+                                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                              [isSubmitted]="isSubmitted" 
+                                                              [control]="pharmacyData.controls['address6']">
+                                        </app-control-messages>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><br>
+                        
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-4">
+                                <div class="field form">
+                                    <label><span class="asterisk">{{text.asterisk}}</span> 
+                                        {{"phoneNumber" | translate}}</label>
+                                    <div class="row g-2 mb-2">
+                                        <div class="col-12 col-md-10">
+                                            <p-inputMask styleClass="input-mask" mask="{{text.maskPhone}}"
+                                                         placeholder="{{text.placeholderPhone}}"
+                                                         formControlName="numberPhone1" 
+                                                         [ngClass]="bgInput('numberPhone1')">
+                                            </p-inputMask>
+                                        </div>
+                                        <div class="col-12 col-md-2">
+                                            <a class="button roundEtiquette" pButton (click)="visiblePhone()">
+                                                <span class="pi pi-plus"></span></a>
+                                        </div>
+                                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                              [isSubmitted]="isSubmitted" 
+                                                              [control]="pharmacyData.controls['numberPhone1']" 
+                                                              inputName="{{'phoneNumber' | translate}}">
+                                        </app-control-messages>
+                                    </div>
+                                    <div>
+                                        <div class="row g-2 mb-2" *ngIf="isVisiblePhone1">
+                                            <div class="col-12 col-md-10">
+                                                <p-inputMask styleClass="input-mask" mask="{{text.maskPhone}}" 
+                                                             placeholder="{{text.placeholderPhone}}"
+                                                             formControlName="numberPhone2">
+                                                </p-inputMask></div>
+                                            <div class="col-12 col-md-2">
+                                                <a class="button roundEtiquette" pButton 
+                                                   (click)="deletePhone(num.zero)">
+                                                   <span class="pi pi-minus"></span>
+                                                </a></div>
+                                        </div>
+                                        <div class="row g-2 mb-2" *ngIf="isVisiblePhone2">
+                                            <div class="col-12 col-md-10">
+                                                <p-inputMask styleClass="input-mask" mask="{{text.maskPhone}}"
+                                                              placeholder="{{text.placeholderPhone}}"
+                                                              formControlName="numberPhone3">
+                                                </p-inputMask></div>
+                                            <div class="col-12 col-md-2">
+                                                <a class="button roundEtiquette" pButton 
+                                                   (click)="deletePhone(num.one)"><span class="pi pi-minus"></span>
+                                                </a></div>
+                                        </div>
+                                        <div class="row g-2 mb-2" *ngIf="isVisiblePhone3">
+                                            <div class="col-12 col-md-10">
+                                                <p-inputMask styleClass="input-mask" mask="{{text.maskPhone}}"
+                                                             placeholder="{{text.placeholderPhone}}"
+                                                             formControlName="numberPhone4">
+                                                </p-inputMask></div>
+                                            <div class="col-12 col-md-2">
+                                                <a class="button roundEtiquette" pButton 
+                                                (click)="deletePhone(num.two)"><span class="pi pi-minus"></span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            <div class="col-12 col-md-4">
+                                <div class="field form">
+                                    <label><span class="asterisk">{{text.asterisk}}</span> 
+                                        {{"cellPhoneNumber" | translate}}</label>
+                                    <div class="row g-2 mb-2">
+                                        <div class="col-12 col-md-10">
+                                            <p-inputMask styleClass="input-mask" mask="{{text.maskCell}}" 
+                                                         placeholder="{{text.placeholderCell}}"
+                                                         formControlName="numberCell1" 
+                                                         [ngClass]="bgInput('numberCell1')">
+                                            </p-inputMask>
+                                        </div>
+                                        <div class="col-12 col-md-2">
+                                            <a class="button roundEtiquette" pButton (click)="visibleCell()">
+                                                <span class="pi pi-plus"></span></a>
+                                        </div>
+                                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                              [isSubmitted]="isSubmitted" 
+                                                              [control]="pharmacyData.controls['numberCell1']" 
+                                                              inputName="{{'cellPhoneNumber' | translate}}">
+                                        </app-control-messages>
+                                    </div>
+                                    <div>
+                                        <div class="row g-2 mb-2" *ngIf="isVisibleCell1">
+                                            <div class="col-12 col-md-10">
+                                                <p-inputMask styleClass="input-mask" mask="{{text.maskCell}}" 
+                                                              placeholder="{{text.placeholderCell}}" 
+                                                              formControlName="numberCell2"></p-inputMask>
+                                            </div>
+                                            <div class="col-12 col-md-2">
+                                                <a class="button roundEtiquette" pButton 
+                                                   (click)="deleteCell(num.zero)"><span class="pi pi-minus"></span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="row g-2 mb-2" *ngIf="isVisibleCell2">
+                                            <div class="col-12 col-md-10"><p-inputMask styleClass="input-mask" 
+                                                mask="{{text.maskCell}}" placeholder="{{text.placeholderCell}}"
+                                                formControlName="numberCell3"></p-inputMask>
+                                            </div>
+                                            <div class="col-12 col-md-2">
+                                                <a class="button roundEtiquette" pButton 
+                                                   (click)="deleteCell(num.one)"><span class="pi pi-minus"></span></a>
+                                            </div>
+                                        </div>
+                                        <div class="row g-2 mb-2" *ngIf="isVisibleCell3">
+                                            <div class="col-12 col-md-10">
+                                                <p-inputMask styleClass="input-mask" formControlName="numberCell4" 
+                                                    mask="{{text.maskCell}}" placeholder="{{text.placeholderCell}}">
+                                                </p-inputMask>
+                                            </div>
+                                            <div class="col-12 col-md-2">
+                                                <a class="button roundEtiquette" pButton 
+                                                (click)="deleteCell(num.two)"><span class="pi pi-minus"></span></a>
+                                            </div>
+                                        </div>
+                                    </div>                
+                                </div>
+                            </div>
+                        
+                            <div class="col-12 col-md-4">
+                                <div class="field form">
+                                    <label><span class="asterisk">{{text.asterisk}}</span> 
+                                        {{ "nameEmail" | translate }}</label>
+                                    <div class="row g-2 mb-2">
+                                        <div class="col-12 col-md-10">
+                                            <input type="email" formControlName="email1" 
+                                                [ngClass]="bgInput('email1')" pInputText
+                                                placeholder="{{'nameEmail' | translate}}"/>
+                                        </div>
+                                        <div class="col-12 col-md-2">
+                                            <a class="button roundEtiquette" pButton (click)="visibleEmail()">
+                                                <span class="pi pi-plus"></span></a>
+                                        </div>
+                                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                              [isSubmitted]="isSubmitted" 
+                                                              [control]="pharmacyData.controls['email1']" 
+                                                              inputName="{{'nameEmail' | translate}}">
+                                        </app-control-messages>
+                                    </div>
+                                    <div>
+                                        <div class="row g-2 mb-2" *ngIf="isVisibleEmail1">
+                                            <div class="col-12 col-md-10">
+                                                <input type="email" formControlName="email2" pInputText
+                                                       [ngClass]="bgInput('email2')" 
+                                                       placeholder="{{'nameEmail' | translate}}"/>
+                                            </div>
+                                            <div class="col-12 col-md-2">
+                                                <a class="button roundEtiquette" (click)="deleteEmail(num.zero)"
+                                                   pButton ><span class="pi pi-minus"></span></a>
+                                            </div>
+                                            <app-control-messages *ngIf="isSubmitted" class="txtErrorInput"
+                                                                  [isSubmitted]="isSubmitted" 
+                                                                  [control]="pharmacyData.controls['email2']"
+                                                                  inputName="{{'nameEmail' | translate}}">
+                                            </app-control-messages>
+                                        </div>
+                                        <div class="row g-2 mb-2" *ngIf="isVisibleEmail2">
+                                            <div class="col-12 col-md-10">
+                                                <input type="email" formControlName="email3" 
+                                                       [ngClass]="bgInput('email3')" pInputText
+                                                       placeholder="{{'nameEmail' | translate}}"/>
+                                            </div>
+                                            <div class="col-12 col-md-2">
+                                                <a class="button roundEtiquette" pButton 
+                                                   (click)="deleteEmail(num.one)"><span class="pi pi-minus"></span></a>
+                                            </div>
+                                            <app-control-messages *ngIf="isSubmitted" class="txtErrorInput"
+                                                                  [isSubmitted]="isSubmitted" 
+                                                                  [control]="pharmacyData.controls['email3']"
+                                                                  inputName="{{'nameEmail' | translate}}">
+                                            </app-control-messages>
+                                        </div>
+                                        <div class="row g-2 mb-2" *ngIf="isVisibleEmail3">
+                                            <div class="col-12 col-md-10">
+                                                <input type="email" formControlName="email4" 
+                                                       [ngClass]="bgInput('email4')" pInputText
+                                                       placeholder="{{'nameEmail' | translate}}"/>
+                                            </div>
+                                            <div class="col-12 col-md-2">
+                                                <a class="button roundEtiquette" pButton 
+                                                   (click)="deleteEmail(num.two)"><span class="pi pi-minus"></span></a>
+                                            </div>
+                                            <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                                  [isSubmitted]="isSubmitted" 
+                                                                  [control]="pharmacyData.controls['email4']" 
+                                                                  inputName="{{'nameEmail' | translate}}">
+                                            </app-control-messages>
+                                        </div>
+                                        <div class="row g-2 mb-2" *ngIf="isVisibleEmail4">
+                                            <div class="col-12 col-md-10">
+                                                <input type="email" formControlName="email5" 
+                                                       [ngClass]="bgInput('email5')" pInputText
+                                                       placeholder="{{'nameEmail' | translate}}"/>
+                                            </div>
+                                            <div class="col-12 col-md-2">
+                                                <a class="button roundEtiquette" pButton 
+                                                   (click)="deleteEmail(num.three)"><span class="pi pi-minus"></span>
+                                                </a>
+                                            </div>
+                                            <app-control-messages *ngIf="isSubmitted" class="txtErrorInput"
+                                                [isSubmitted]="isSubmitted" [control]="pharmacyData.controls['email5']"
+                                                inputName="{{'nameEmail' | translate}}">
+                                            </app-control-messages>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row mb-3"><h2 class="subtitles">{{"pharmacy.pharmacyManager" | translate}}</h2>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-6">
+                                <div class="field form">
+                                    <label><span class="asterisk">{{text.asterisk}}</span>{{"names" | translate}}
+                                    </label>                
+                                    <input type="text" formControlName="managerName" pInputText
+                                           [ngClass]="bgInput('managerName')" placeholder="{{'names' | translate}}"/>
+                                    <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                          [isSubmitted]="isSubmitted" 
+                                                          [control]="pharmacyData.controls['managerName']" 
+                                                          inputName="{{'names' | translate}}">
+                                    </app-control-messages>
+                                </div>
+                            </div>
+                        
+                            <div class="col-12 col-md-6">
+                                <div class="field form">
+                                    <label><span class="asterisk">{{text.asterisk}}</span> {{"surnames" | translate}}
+                                    </label>                
+                                    <input type="text" formControlName="managerSurnames" pInputText
+                                      [ngClass]="bgInput('managerSurnames')" placeholder="{{'surnames' | translate}}"/>
+                                    <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                          [isSubmitted]="isSubmitted" 
+                                                          [control]="pharmacyData.controls['managerSurnames']" 
+                                                          inputName="{{'surnames' | translate}}">
+                                    </app-control-messages>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3"><h2 class="subtitles">{{"socialNetworks" | translate}}</h2></div>
+
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-3">
+                                <div class="field form">
+                                    <label>{{ "facebook" | translate }}
+                                        <span class="material-icons iconQuestion" placement="top" 
+                                         ngbPopover="Inserte el link del perfil de facebook en el campo seleccionado."
+                                         popoverTitle="Info URL Facebook">help_outline</span>
+                                    </label>
+                                    <input type="text" formControlName="facebook" pInputText
+                                           [ngClass]="bgInput('facebook')" placeholder="{{'facebook' | translate}}"/>
+                                    <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                          [isSubmitted]="isSubmitted" 
+                                                          [control]="pharmacyData.controls['facebook']" 
+                                                          inputName="{{'facebook' | translate}}">
+                                    </app-control-messages>
+                                </div>
+                            </div>
+                        
+                            <div class="col-12 col-md-3">
+                                <div class="field form">
+                                    <label> {{ "instagram" | translate }}
+                                        <span class="material-icons iconQuestion" placement="top" 
+                                         ngbPopover="Inserte el link del perfil de instagram en el campo seleccionado."
+                                         popoverTitle="Info URL Instagram">help_outline</span>
+                                    </label>              
+                                    <input type="text" formControlName="instagram" pInputText
+                                           [ngClass]="bgInput('instagram')" placeholder="{{'instagram' | translate}}"/>
+                                    <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                          [isSubmitted]="isSubmitted" 
+                                                          [control]="pharmacyData.controls['instagram']" 
+                                                          inputName="{{'instagram' | translate}}">
+                                    </app-control-messages>
+                                </div>
+                            </div>
+                        
+                            <div class="col-12 col-md-3">
+                                <div class="field form">
+                                    <label>{{ "whatsApp" | translate }}
+                                        <span class="material-icons iconQuestion" placement="top" 
+                                          ngbPopover="Inserte el link del perfil de whatsApp en el campo seleccionado."
+                                          popoverTitle="Info URL WhatsApp">help_outline</span>
+                                    </label>              
+                                    <input type="text" formControlName="whatsApp" pInputText
+                                           [ngClass]="bgInput('whatsApp')" placeholder="{{'whatsApp' | translate}}"/>
+                                    <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                          [isSubmitted]="isSubmitted" 
+                                                          [control]="pharmacyData.controls['whatsApp']" 
+                                                          inputName="{{'whatsApp' | translate}}">
+                                    </app-control-messages>
+                                </div>
+                            </div>
+                        
+                            <div class="col-12 col-md-3">
+                                <div class="field form">
+                                    <label> {{ "youTube" | translate }}
+                                        <span class="material-icons iconQuestion" placement="top"
+                                          ngbPopover="Inserte el link del perfil de youTube en el campo seleccionado." 
+                                          popoverTitle="Info URL YouTube">help_outline</span>
+                                    </label>               
+                                    <input type="text" formControlName="youTube" [ngClass]="bgInput('youTube')"
+                                           placeholder="{{'youTube' | translate}}" pInputText/>
+                                    <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                          [isSubmitted]="isSubmitted" 
+                                                          [control]="pharmacyData.controls['youTube']" 
+                                                          inputName="{{'youTube' | translate}}">
+                                    </app-control-messages>
+                                </div>
+                            </div>    
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-8">
+                                <div class="field form">
+                                    <label> {{"urlWebsiteAddress" | translate}}</label>                
+                                    <input type="text" formControlName="urlWebsite" [ngClass]="bgInput('urlWebsite')"
+                                           placeholder="{{'urlWebsiteAddress' | translate}}" pInputText/>
+                                    <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                          [isSubmitted]="isSubmitted" 
+                                                          [control]="pharmacyData.controls['urlWebsite']" 
+                                                          inputName="{{'urlWebsiteAddress' | translate}}">
+                                    </app-control-messages>
+                                </div>
+                            </div>
+    
+                            <div class="col-12 col-md-4">
+                                <label><span class="asterisk">{{text.asterisk}}</span> {{ "nameState" | translate }}
+                                </label>
+                                <div *ngIf="isCreate">
+                                    <div class="form-check form-check-inline">
+                                        <label class="opacity-disabled">
+                                            <input class="form-check-input" type="radio" checked disabled/>
+                                            {{"nameActive" | translate}}</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label class="opacity-disabled">
+                                            <input class="form-check-input" type="radio" disabled/>
+                                            {{"nameInactive" | translate}}</label>
+                                    </div>     
+                                </div>  
+    
+                                <div class="field marginTopRadio" *ngIf="!isCreate">
+                                    <div class="form-check form-check-inline">                                    
+                                        <label><br><input class="form-check-input" onkeydown="" type="radio" 
+                                            (click)="isStateTrue(true)" name="stateUpdate" [checked]="isState">
+                                            {{"nameActive" | translate}}</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label><br><input class="form-check-input" onkeydown="" type="radio" 
+                                            (click)="isStateFalse(false)" name="stateUpdate" [checked]="!isState">
+                                            {{ "nameInactive" | translate }}</label>
+                                    </div>
+                                </div>                     
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="d-flex flex-wrap justify-content-end gap--24">
+                                <button type="submit" class="btn-outline-1" pButton  
+                                        [routerLink]="['/setting/pharmacy']">{{"cancelProcess" | translate}}</button>
+                                <button type="submit" class="btn-primary" pButton (click)="validForm()" 
+                                        label="{{'nextStep' | translate}}"></button>
+                            </div>
+                      </div>
+                    </div>
+
+                    <div *ngIf="isVisibleInformation">
+
+                        <div class="row mb-3"><h2 class="subtitles">{{"billingInformation.title" | translate}}</h2>
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-12 col-md-4">
+                                <label><span class="asterisk">{{text.asterisk}}</span>
+                                    {{"billingInformation.manageElectronicBilling" | translate }}</label>
+                                <div>
+                                    <div class="form-check form-check-inline">                                        
+                                        <label><input class="form-check-input" onkeydown="" type="radio" 
+                                            (click)="billingInformationTrue(true)" name="manageBilling" 
+                                            [checked]="isElectronicBilling">
+                                            {{"nameYes" | translate}}</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <label><input class="form-check-input" onkeydown="" type="radio" 
+                                            (click)="billingInformationFalse(false)" name="manageBilling" 
+                                            [checked]="!isElectronicBilling">
+                                            {{"nameNo" | translate}}</label>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <div class="row mb-3">
+                                <div class="col-12 col-md-4">
+                                    <div class="field form">
+                                        <label><span class="asterisk">{{text.asterisk}}</span>
+                                            {{"billingInformation.dianAdministrationCode" | translate }}</label>
+                                        <input type="number" formControlName="dianCode" [ngClass]="bgInput('dianCode')"
+                                             placeholder="{{'billingInformation.dianAdministrationCode' | translate}}"
+                                             pInputText appTypeNumbers="nature,10"/>
+                                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                             [isSubmitted]="isSubmitted" [control]="pharmacyData.controls['dianCode']" 
+                                             inputName="{{'billingInformation.dianAdministrationCode' | translate}}">
+                                        </app-control-messages>
+                                    </div>
+                                </div>
+                    
+                                <div class="col-12 col-md-4">
+                                    <div class="field form">
+                                        <label><span class="asterisk">{{text.asterisk}}</span> 
+                                            {{"billingInformation.technologyProviderName" | translate}}</label>
+                                        <input type="text" formControlName="providerName" 
+                                              placeholder="{{'billingInformation.technologyProviderName' | translate}}"
+                                              [ngClass]="bgInput('providerName')" pInputText/>
+                                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                               [isSubmitted]="isSubmitted" 
+                                               [control]="pharmacyData.controls['providerName']" 
+                                               inputName="{{'billingInformation.technologyProviderName' | translate}}">
+                                        </app-control-messages>
+                                    </div>
+                                </div>
+                    
+                                <div class="col-12 col-md-4">
+                                    <div class="field form">
+                                        <label><span class="asterisk">{{text.asterisk}}</span> 
+                                            {{"billingInformation.nit" | translate}}</label>
+                                        <input type="number" formControlName="nit" appTypeNumbers="nature,16"
+                                               placeholder="{{'billingInformation.nit' | translate}}" 
+                                               [ngClass]="bgInput('nit')" pInputText/>
+                                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                              [isSubmitted]="isSubmitted" 
+                                                              [control]="pharmacyData.controls['nit']" 
+                                                              inputName="{{'billingInformation.nit' | translate}}">
+                                        </app-control-messages>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <div class="row mb-3">
+                                <div class="col-12 col-md-4">
+                                    <div class="field form">
+                                        <label><span class="asterisk">{{text.asterisk}}</span> 
+                                            {{"billingInformation.vendorVerificationDigit" | translate}}</label>
+                                        <input type="number" formControlName="vendorVerification" 
+                                            placeholder="{{'billingInformation.vendorVerificationDigit' | translate}}"
+                                            appTypeNumbers="nature,1" pInputText
+                                            [ngClass]="bgInput('vendorVerification')"/>
+                                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                            [isSubmitted]="isSubmitted" 
+                                            [control]="pharmacyData.controls['vendorVerification']" 
+                                            inputName="{{'billingInformation.vendorVerificationDigit' | translate}}">
+                                        </app-control-messages>
+                                    </div>
+                                </div>
+                    
+                                <div class="col-12 col-md-4">
+                                    <div class="field form">
+                                        <label><span class="asterisk">{{text.asterisk}}</span> 
+                                            {{"billingInformation.supplierCity" | translate}}</label>
+                                        <p-dropdown [options]="citiesSupplier" optionLabel="nombre" appendTo="body"
+                                                    formControlName="idCitySupplier"
+                                                    [ngClass]="bgInput('idCitySupplier', true)" 
+                                                    placeholder="{{'billingInformation.supplierCity' | translate}}"
+                                                    [filter]="true" filterBy="nombre" [showClear]="true">
+                                        </p-dropdown>
+                                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                        [isSubmitted]="isSubmitted" 
+                                                        [control]="pharmacyData.controls['idCitySupplier']" 
+                                                        inputName="{{'billingInformation.supplierCity' | translate}}">
+                                        </app-control-messages>
+                                    </div>
+                                </div>
+                    
+                                <div class="col-12 col-md-4">
+                                    <div class="field form">
+                                        <label><span class="asterisk">{{text.asterisk}}</span> 
+                                            {{"billingInformation.typeOperationBilling" | translate}}</label>
+                                        <p-dropdown [options]="operations" optionLabel="nombre" appendTo="body"
+                                            formControlName="idTypeOperation"
+                                            [ngClass]="bgInput('idTypeOperation', true)" 
+                                            placeholder="{{'billingInformation.typeOperationBilling' | translate}}"
+                                            [filter]="true" filterBy="nombre" [showClear]="true">
+                                        </p-dropdown>
+                                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                [isSubmitted]="isSubmitted" 
+                                                [control]="pharmacyData.controls['idTypeOperation']" 
+                                                inputName="{{'billingInformation.typeOperationBilling' | translate}}">
+                                        </app-control-messages>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <div class="row mb-3">
+                                
+                                <div class="col-12 col-md-4">
+                                    <div class="field form">
+                                        <label><span class="asterisk">{{text.asterisk}}</span> 
+                                            {{"nameEnvironment" | translate}}</label>
+                                        <p-dropdown [options]="enviments" optionLabel="nombre" appendTo="body" 
+                                          formControlName="idTypeEnviment" [ngClass]="bgInput('idTypeEnviment', true)"
+                                          placeholder="{{ 'nameEnvironment' | translate }}" [showClear]="true">
+                                        </p-dropdown>
+                                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                            [isSubmitted]="isSubmitted" 
+                                                            [control]="pharmacyData.controls['idTypeEnviment']" 
+                                                            inputName="{{'nameEnvironment' | translate}}">
+                                        </app-control-messages>
+                                    </div>
+                                </div>
+                    
+                                <div class="col-12 col-md-4">
+                                    <div class="field form">
+                                        <label ><span class="asterisk">{{text.asterisk}}</span>
+                                            {{"billingInformation.typeLegalOrganization" | translate}}</label>
+                                        <p-dropdown [options]="legals" optionLabel="nombre" appendTo="body"
+                                            formControlName="idTypeLegal" [showClear]="true"
+                                            [ngClass]="bgInput('idTypeLegal', true)" 
+                                            placeholder="{{ 'billingInformation.typeLegalOrganization' | translate }}">
+                                        </p-dropdown>
+                                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                [isSubmitted]="isSubmitted" 
+                                                [control]="pharmacyData.controls['idTypeLegal']" 
+                                                inputName="{{'billingInformation.typeLegalOrganization' | translate}}">
+                                        </app-control-messages>
+                                    </div>
+                                </div>
+                    
+                                <div class="col-12 col-md-4">
+                                    <div class="field form">
+                                      <label>{{"billingInformation.commercialRegistrationNumber" | translate }}
+                                      </label>
+                                      <input type="text" formControlName="numberCommercial" 
+                                      placeholder="{{'billingInformation.commercialRegistrationNumber' | translate}}"/>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <div class="row mb-3">                    
+                                <div class="col-12 col-md-4">
+                                    <div class="field">
+                                        <label><span class="asterisk">{{text.asterisk}}</span> 
+                                            {{"billingInformation.taxResponsibilities" | translate}}</label>
+                                        <p-dropdown [options]="taxs" optionLabel="nombre" appendTo="body"
+                                                formControlName="idTaxResponsabiliti"
+                                                [ngClass]="bgInput('idTaxResponsabiliti', true)" 
+                                                placeholder="{{'billingInformation.taxResponsibilities' | translate}}"
+                                                [filter]="true" filterBy="nombre" [showClear]="true">
+                                        </p-dropdown>
+                                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                [isSubmitted]="isSubmitted" 
+                                                [control]="pharmacyData.controls['idTaxResponsabiliti']" 
+                                                inputName="{{'billingInformation.taxResponsibilities' | translate}}">
+                                        </app-control-messages>
+                                    </div>
+                                </div>
+                    
+                                <div class="col-12 col-md-4">
+                                    <div class="field">
+                                        <label>{{"billingInformation.taxRegime" | translate}}</label>
+                                        <input type="text" formControlName="taxRegime" 
+                                               [ngClass]="bgInput('taxRegime')" pInputText
+                                               placeholder="{{'billingInformation.taxRegime' | translate}}"/>
+                                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                           [isSubmitted]="isSubmitted" 
+                                                           [control]="pharmacyData.controls['taxRegime']" 
+                                                           inputName="{{'billingInformation.taxRegime' | translate}}">
+                                        </app-control-messages>                  
+                                    </div>
+                                </div>
+                    
+                                <div class="col-12 col-md-4">
+                                    <div class="field form">
+                                        <label><span class="asterisk">{{text.asterisk}}</span>
+                                            {{"postalCode" | translate}}</label>
+                                        <input type="number" formControlName="codePostal" 
+                                           placeholder="{{'postalCode' | translate}}" [ngClass]="bgInput('codePostal')"
+                                           appTypeNumbers="nature,6" pInputText/>
+                                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                              [isSubmitted]="isSubmitted" 
+                                                              [control]="pharmacyData.controls['codePostal']" 
+                                                              inputName="{{'postalCode' | translate}}">
+                                        </app-control-messages>
+                                    </div>
+                                </div>
+                            </div>
+                
+                            <div class="row mb-3">                    
+                                <div class="col-12 col-md-4">
+                                    <div class="field form">
+                                        <label><span class="asterisk">{{text.asterisk}}</span>
+                                            {{"billingInformation.cufeGenerationKey" | translate}}</label>
+                                        <input type="text" formControlName="keyCufe" pInputText
+                                               placeholder="{{'billingInformation.cufeGenerationKey' | translate}}"
+                                               [ngClass]="bgInput('keyCufe')"/>
+                                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                    [isSubmitted]="isSubmitted" 
+                                                    [control]="pharmacyData.controls['keyCufe']" 
+                                                    inputName="{{'billingInformation.cufeGenerationKey' | translate}}">
+                                        </app-control-messages>
+                                    </div>
+                                </div>
+                    
+                                <div class="col-12 col-md-4">
+                                    <div class="field form">
+                                        <label><span class="asterisk">{{text.asterisk}}</span>
+                                            {{"billingInformation.authorizationCodeCude" | translate }}</label>
+                                        <input type="text" formControlName="keyCude" pInputText
+                                               placeholder="{{'billingInformation.authorizationCodeCude' | translate}}"
+                                               [ngClass]="bgInput('keyCude')"/>
+                                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                              [isSubmitted]="isSubmitted" [control]="pharmacyData.controls['keyCude']"
+                                              inputName="{{'billingInformation.authorizationCodeCude' | translate}}">
+                                        </app-control-messages>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-12">
+                                <div class="d-flex flex-wrap justify-content-end gap--24">
+                                    <button type="submit" class="btn-outline-1" pButton  
+                                            (click)="nexTInformation()">{{"nameReturn" | translate}}</button>
+                                    <button type="submit" class="btn-primary" pButton label="{{nameButton}}"></button>
+                                </div>
+                                <br>
+                                <div class="d-flex flex-wrap justify-content-end">
+                                    <button type="submit" class="btn-outline-1" pButton  
+                                    [routerLink]="['/setting/pharmacy']">{{"cancelProcess" | translate}}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </section>
+</main>

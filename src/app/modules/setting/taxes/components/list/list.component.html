@@ -1,0 +1,92 @@
+<main>
+  <app-taxUpdate [param]="data" (showMessage)="getBoolOk($event)" (showMessageBad)="getBoolBad($event)" *ngIf="show">
+  </app-taxUpdate>
+  <section>
+    <div class="alert alert-success d-flex align-items-center fade show" role="alert" *ngIf="isAlertSuccess">
+      <span class="material-icons-outlined">check_circle</span>
+      {{ messageAlertSuccess }}
+    </div>
+    <div class="alert alert-danger d-flex align-items-center" role="alert" *ngIf="isAlertError">
+      <span class="material-icons-outlined">highlight_off</span>
+      {{ messageAlertError }}
+    </div>
+  </section>
+
+  <section class="mainForm mainForm_section g-3" *ngIf="!show">
+    <div class="d-lg-flex d-md-flex d-blok justify-content-between">
+      <div class="justify-content-start">
+        <h1 class="mainForm_title">{{ "taxes.titleList" | translate }}</h1>
+      </div>
+      <div class="justify-content-end align-self-start">
+        <button type="submit" class="btn-primary btn-outline-1" pButton (click)="createTaxe()">
+          {{ "taxes.titleCreate" | translate }}
+        </button>
+      </div>
+    </div>
+    <form class="row g-3">
+
+      <p-table #dt dataKey="id" [value]="taxes" responsiveLayout="stack" [paginator]="true" [rows]="10"
+        [rowsPerPageOptions]="[10,25,50]" [globalFilterFields]="['id','nombre','nombreAplicacion','nombreEstado']">
+        <ng-template pTemplate="caption">
+          <h2>{{ "results" | translate}}</h2>
+
+          <span class="float-end table-search">
+            <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')" placeholder="Buscar" />
+            <i class="pi pi-search"></i>
+          </span>
+        </ng-template>
+
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col" pSortableColumn="id">Código
+              <p-sortIcon field="id"></p-sortIcon>
+              <p-columnFilter type="text" field="id" display="menu" class="ml-auto"></p-columnFilter>
+            </th>
+            <th scope="col" pSortableColumn="nombre">Nombre
+              <p-sortIcon field="nombre"></p-sortIcon>
+              <p-columnFilter type="text" field="nombre" display="menu" class="ml-auto"></p-columnFilter>
+            </th>
+            <th scope="col" pSortableColumn="nombreAplicacion">Aplicación
+              <p-sortIcon field="nombreAplicacion"></p-sortIcon>
+              <p-columnFilter type="text" field="nombreAplicacion" display="menu" class="ml-auto"></p-columnFilter>
+            </th>
+            <th scope="col" pSortableColumn="nombreEstado">Estado
+              <p-sortIcon field="nombreEstado"></p-sortIcon>
+              <p-columnFilter type="text" field="nombreEstado" display="menu" class="ml-auto"></p-columnFilter>
+            </th>
+            <th scope="col" class="tableStyle">{{ "actions" | translate}}</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-taxes>
+          <tr>
+            <td>{{taxes.id}}</td>
+            <td>{{taxes.nombre}}</td>
+            <td>{{taxes.nombreAplicacion}}</td>
+
+            <td>
+              <span class="p-column-title">{{'nameState' | translate}}</span>
+              <div>
+                <span class="badge rounded-pill"
+                  [ngClass]="{'bg-success': taxes.estado ,'bg-secondary': !taxes.estado}">
+                  {{taxes.estado | state}}</span>
+              </div>
+            </td>
+            <td>
+              <div class="btn-group" role="group" aria-label="Basic outlined example">
+                <button pButton pRipple icon="pi pi-pencil" type="button" (click)="edit(taxes)" class="p-button-edit">
+                </button>
+                <button pButton pRipple icon="pi pi-trash" (click)="deleteC(taxes)" class="p-button-delete"></button>
+
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="8">{{ "notFound" | translate }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </form>
+  </section>
+</main>

@@ -1,0 +1,53 @@
+<main>
+  <section class="mainForm p--24">
+    <h1 class="mainForm_title">{{ "taxes.titleCreate" | translate }}</h1>
+    <form (ngSubmit)="next()" [formGroup]="basicData" class="row g-3">
+      <div class="mainForm_section col-12 col-md-8">
+        <label for="taxeName"><span class="asterisk">{{ text.asterisk }}</span>{{ "taxes.taxeName" | translate
+          }}</label>
+        <input type="text" aria-describedby="username1-help" pInputText formControlName="taxeName"
+          placeholder="{{ 'taxes.placeholderApplyNameTaxe' | translate }}" [ngClass]="bgInput('taxeName')" />
+        <app-control-messages inputName="{{ 'taxes.taxeName' | translate }}" *ngIf="isSubmitted" class="txtErrorInput"
+          [isSubmitted]="isSubmitted" [control]="basicData.controls['taxeName']"></app-control-messages>
+      </div>
+
+      <div class="row boxTax">
+        <div class="col-12 col-5 col-md-6 boxTax_check">
+          <label for="taxeApp">
+            <span class="asterisk">{{ text.asterisk }}</span>{{ "taxes.taxeApp" | translate }}</label>
+          <div class="field">
+            <div class="form-check form-check-inline">
+              <label><input class="form-check-input marginRadio" type="radio" name="ejemplo" checked tabindex="0"
+                  onkeydown="" (click)="loadList(1) ">
+                Nacional</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <label><input class="form-check-input marginRadio" type="radio" name="ejemplo" tabindex="0" onkeydown=""
+                  (click)="loadList(2)">
+                Departamental</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <label> <input class="form-check-input marginRadio" type="radio" name="ejemplo" tabindex="0" onkeydown=""
+                  (click)="loadList(3)">
+                Municipal</label>
+            </div>
+          </div>
+          <p-multiSelect [options]="listData" optionLabel="nombre" [ngClass]="bgInput('itemsSelect')"
+            filterPlaceHolder="Buscar" selectedItemsLabel="{0} items seleccionados" formControlName="itemsSelect">
+          </p-multiSelect>
+          <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" inputName="{{ 'taxes.taxeApp' | translate }}"
+            [isSubmitted]="isSubmitted" [control]="basicData.controls['itemsSelect']"></app-control-messages>
+        </div>
+        <div class="col-12 col-md-6" style="padding: 5.7em 0;">
+          <div class="d-flex flex-wrap justify-content-end gap--24">
+            <button type="submit" class="btn-primary btn-outline-1" (click)="cancel()" type="button">
+              {{ "cancel" | translate }}
+            </button>
+            <button type="submit" class="btn-primary" pButton label="{{ 'taxes.titleCreate' | translate }}"></button>
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </section>
+</main>

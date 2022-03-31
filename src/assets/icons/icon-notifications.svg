@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="31.313" height="31.688" viewBox="0 0 31.313 31.688">
+  <g id="notifications_black_18dp" transform="translate(0 1.688)">
+    <path id="Trazado_17877" data-name="Trazado 17877" d="M0,0H30V30H0Z" fill="none"/>
+    <path id="Trazado_17878" data-name="Trazado 17878" d="M14,26.875a2.507,2.507,0,0,0,2.5-2.5h-5A2.507,2.507,0,0,0,14,26.875Zm7.5-7.5v-6.25c0-3.837-2.038-7.05-5.625-7.9v-.85a1.875,1.875,0,1,0-3.75,0v.85c-3.575.85-5.625,4.05-5.625,7.9v6.25L4,21.875v1.25H24v-1.25ZM19,20.625H9v-7.5c0-3.1,1.888-5.625,5-5.625s5,2.525,5,5.625Z" transform="translate(1 0.625)" fill="#00548c"/>
+    <g id="Elipse_7" data-name="Elipse 7" transform="translate(15.313 -1.688)" fill="#d81e05" stroke="#fff" stroke-width="1">
+      <circle cx="8" cy="8" r="8" stroke="none"/>
+      <circle cx="8" cy="8" r="7.5" fill="none"/>
+    </g>
+    <text id="_1" data-name="1" transform="translate(20.313 10.313)" fill="#fff" font-size="11" font-family="Nunito-Black, Nunito" font-weight="800"><tspan x="0" y="0">1</tspan></text>
+  </g>
+</svg>

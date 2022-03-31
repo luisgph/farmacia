@@ -1,0 +1,157 @@
+<main>
+  <app-alerts-messages [alertType]="alertType" *ngIf="showAlert" (stateAlert)="stateAlertMessege($event)"
+    [messageAlertSuccess]="messageAlertSuccess" [messageAlertError]="messageAlertError"></app-alerts-messages>
+  <section class="mainForm">
+    <form [formGroup]="ivaRateForm">
+      <section class="row mainForm_section">
+        <div class="col">
+          <div class="d-lg-flex d-md-flex d-blok justify-content-between">
+            <div class="justify-content-start">
+              <h1 class="mainForm_title">{{ title }}</h1>
+            </div>
+            <div class="justify-content-end align-self-start">
+              <button type="submit" class="btn-outline-1" pButton (click)="create()" [hidden]="!isSectionEdit">{{
+                "ivaRate.titleCreate" | translate }}</button>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="row g-3" *ngIf="!isSectionEdit">
+        <div class="col-12 col-lg-6">
+          <div class="field">
+            <label><span class="asterisk">{{ constText.asterisk }}</span>{{ "ivaRate.tarifa" | translate}}</label>
+            <input formControlName="rateField" [ngClass]="bgInput('rateField')" type="text"
+              [placeholder]="placeHolderName" pInputText maxlength="10" appOnlyNumbers />
+            <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+              [control]="ivaRateForm.controls['rateField']" [inputName]="placeHolderName"></app-control-messages>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6">
+          <div class="field">
+            <label><span class="asterisk">{{ constText.asterisk }}</span>{{ "ivaRate.accountPuc" | translate}}
+            </label>
+            <p-dropdown [options]="contAccountList" appendTo="body" optionLabel="nombre"
+              [placeholder]="placeHolderAccount" formControlName="accountPucField"
+              [ngClass]="bgInput('accountPucField', true)" [filter]="true" filterBy="nombre" [showClear]="true">
+            </p-dropdown>
+            <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+              [control]="ivaRateForm.controls['accountPucField']" [inputName]="placeHolderAccount">
+            </app-control-messages>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-6">
+          <label><span class="asterisk">{{ constText.asterisk }}</span>{{ "tax" | translate}}</label>
+          <p-dropdown [options]="taxList" appendTo="body" optionLabel="nombre" [placeholder]="placeHoldertax"
+            formControlName="taxField" [ngClass]="bgInput('taxField', true)" [filter]="true" filterBy="nombre"
+            [showClear]="true"></p-dropdown>
+          <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+            [control]="ivaRateForm.controls['taxField']" [inputName]="placeHoldertax"></app-control-messages>
+        </div>
+        <div class="col-12 col-lg-6">
+          <label><span class="asterisk">{{ constText.asterisk }}</span>{{ "ivaRate.rateType" | translate}}</label>
+          <p-dropdown [options]="ivaTypeList" appendTo="body" optionLabel="nombre" [placeholder]="placeHolderrateType"
+            formControlName="rateTypeField" [ngClass]="bgInput('rateTypeField', true)"></p-dropdown>
+          <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+            [control]="ivaRateForm.controls['rateTypeField']" [inputName]="placeHolderrateType"></app-control-messages>
+        </div>
+        <div class="col-12 col-lg-12" *ngIf="isUpdateIvaRates">
+          <div class="field">
+            <label>{{ "observations" | translate}}</label>
+            <textarea formControlName="observationsField" [rows]="5" cols="60" pInputTextarea [autoResize]="true"
+              [placeholder]="placeHolderObservations" pInputText maxlength="8000"></textarea>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6" *ngIf="isUpdateIvaRates">
+          <label>{{ "nameState" | translate }}</label>
+          <div class="field marginTopRadio">
+            <div class="form-check form-check-inline">
+              <label><br><input class="form-check-input" formControlName="stateField" type="radio" value="A"
+                  name="stateField">
+                {{ "nameActive" | translate }}</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <label><br><input class="form-check-input" formControlName="stateField" type="radio" value="I"
+                  name="stateField">
+                {{ "nameInactive" | translate }}</label>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-12">
+          <div class="d-flex flex-wrap justify-content-end gap--24">
+            <button type="submit" class="btn-outline-1 btn-sm-block" pButton (click)="cancel()">{{ "cancel" | translate
+              }}</button>
+            <button type="submit" class="btn-primary" pButton (click)="save()" label="{{ labelCreateUpdate }}"></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="row  g-3" *ngIf="isSectionEdit">
+        <div class="col">
+          <p-table #dt dataKey="id" [value]="dataIvaRate" responsiveLayout="stack" [paginator]="true" [rows]="10"
+            [rowsPerPageOptions]="[10,25,50]" [globalFilterFields]="['id','porcentaje','nombreCuenta', 'nombreEstado']">
+            <ng-template pTemplate="caption">
+              <h2>{{ "results" | translate}}</h2>
+
+              <span class="float-end table-search">
+                <input pInputText type="text" (input)="applyFilterGlobal($event)"
+                  placeholder="{{ placeHolderSearch }}" />
+                <i class="pi pi-search"></i>
+              </span>
+            </ng-template>
+
+            <ng-template pTemplate="header">
+              <tr>
+                <th scope="col" pSortableColumn="id">
+                  {{ "ivaRate.code" | translate }}
+                  <p-sortIcon field="id"></p-sortIcon>
+                  <p-columnFilter type="text" field="id" display="menu" class="ml-auto"></p-columnFilter>
+                </th>
+                <th scope="col" pSortableColumn="porcentaje">
+                  {{ "ivaRate.tarifa" | translate }}
+                  <p-sortIcon field="porcentaje"></p-sortIcon>
+                  <p-columnFilter type="text" field="porcentaje" display="menu" class="ml-auto"></p-columnFilter>
+                </th>
+                <th scope="col" pSortableColumn="nombreCuenta">
+                  {{ "ivaRate.accountPuc" | translate }}
+                  <p-sortIcon field="nombreCuenta"></p-sortIcon>
+                  <p-columnFilter type="text" field="nombreCuenta" display="menu" class="ml-auto"></p-columnFilter>
+                </th>
+                <th scope="col" pSortableColumn="nombreEstado">
+                  {{ "nameState" | translate }}
+                  <p-sortIcon field="nombreEstado"></p-sortIcon>
+                  <p-columnFilter type="text" field="nombreEstado" display="menu" class="ml-auto"></p-columnFilter>
+                </th>
+                <th scope="col" class="columnAction">{{ "actions" | translate}}</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-ivaRate>
+              <tr>
+                <td>{{ivaRate.id}}</td>
+                <td>{{ivaRate.porcentaje}}</td>
+                <td>{{ivaRate.nombreCuenta}}</td>
+                <td><span class="badge rounded-pill "
+                    [ngClass]="{'bg-success': ivaRate.estado ,'bg-secondary': !ivaRate.estado}">{{ivaRate.estado |
+                    state}}</span> </td>
+                <td>
+                  <div class="btn-group" role="group" aria-label="Basic outlined example">
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-edit"
+                      (click)="editIvaRate( ivaRate )"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-delete"
+                      (click)="deleteIvaRate( ivaRate )"></button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="8">{{ "notFound" | translate }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </section>
+    </form>
+  </section>
+
+</main>

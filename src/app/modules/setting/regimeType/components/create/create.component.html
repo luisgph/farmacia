@@ -1,0 +1,28 @@
+<main>
+  <section class="mainForm p--24">
+    <h1 class="mainForm_title">{{ "regimeType.titleCreate" | translate }}</h1>
+    <form (ngSubmit)="next()" [formGroup]="basicData" class="row g-3">
+      <div class="col-md-4">
+        <label for="code"><span class="asterisk">{{ text.asterisk }}</span>{{ "nameCode" | translate }}</label>
+        <input type="text" aria-describedby="username1-help" pInputText formControlName="code"
+          placeholder="{{ 'nameCode'| translate }}" [ngClass]="bgInput('code')" />
+        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+          inputName="{{ 'nameCode' | translate }}" [control]="basicData.controls['code']"></app-control-messages>
+      </div>
+      <div class="col-md-8">
+        <label for="description"><span class="asterisk">{{ text.asterisk }}</span>{{ "name" | translate }}</label>
+        <input type="text" aria-describedby="username1-help" pInputText formControlName="description"
+          placeholder="{{ 'regimeType.nombreDIAN' | translate }}" [ngClass]="bgInput('description')" />
+        <app-control-messages inputName="{{ 'name' | translate }}" *ngIf="isSubmitted" class="txtErrorInput"
+          [isSubmitted]="isSubmitted" [control]="basicData.controls['description']"></app-control-messages>
+      </div>
+      <div class="d-flex flex-wrap justify-content-end gap--24">
+        <button type="submit" class="btn-outline-1" (click)="cancel()" type="button">
+          {{ "cancel" | translate }}
+        </button>
+        <button type="submit" class="btn-primary" pButton label="{{ 'regimeType.titleCreate' | translate }}"></button>
+      </div>
+
+    </form>
+  </section>
+</main>

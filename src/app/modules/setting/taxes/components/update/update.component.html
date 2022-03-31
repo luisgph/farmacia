@@ -1,0 +1,100 @@
+<main>
+  <section class="mainForm">
+    <h1 class="mainForm_title">{{ "taxes.titleUpdate" | translate }}</h1>
+    <form (ngSubmit)="next()" [formGroup]="basicData" class="row g-3">
+      <div class="col-md-4">
+        <label for="taxeCode">{{ "taxes.taxesCode" | translate }}</label>
+        <input type="text" aria-describedby="username1-help" pInputText placeholder="{{ 'nameCode' | translate }}"
+          value="{{ taxeCode }}" formControlName="taxeCode" />
+        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+          [control]="basicData.controls['taxeCode']">
+        </app-control-messages>
+      </div>
+      <div class="col-md-4">
+        <label for="taxeName">{{ "taxes.taxeName" | translate }}</label>
+        <input type="text" aria-describedby="username1-help" pInputText formControlName="taxeName"
+          placeholder="{{ 'companyType.placeHolderName' | translate }}" value="{{ taxeName }}" />
+        <app-control-messages inputName="{{ 'taxes.taxeName' | translate }}" *ngIf="isSubmitted" class="txtErrorInput"
+          [isSubmitted]="isSubmitted" [control]="basicData.controls['taxeName']"></app-control-messages>
+      </div>
+
+      <div class="col-12 col-md-4">
+        <div>
+          <label> {{ "nameState" | translate }}</label>
+          <div class="field">
+            <div class="form-check form-check-inline">
+              <label><input class="form-check-input marginRadio" type="radio" name="state" [checked]="state1"
+                  tabindex="0" onkeydown="" (click)="estadoC(true)" formControlName="state" />
+                {{
+                "nameActive" | translate
+                }}</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <label><input class="form-check-input marginRadio" type="radio" name="state" tabindex="0"
+                  [checked]="state2" onkeydown="" (click)="estadoC(false)" formArrayName="state" />
+                {{ "nameInactive" | translate
+                }}</label>
+            </div>
+            <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+              [control]="basicData.controls['state']"></app-control-messages>
+
+          </div>
+        </div>
+      </div>
+      <div class="row col-12 boxTax">
+        <div class="col-12 col-5 col-md-5 boxTax_check">
+          <label for="taxeApp">
+            <span class="asterisk">{{ text.asterisk }}</span>{{ "taxes.taxeApp" | translate }}</label>
+
+          <br>
+          <div class="field">
+
+            <div class="form-check form-check-inline">
+
+              <label><input class="form-check-input marginRadio" type="radio" name="ejemplo" [checked]="national"
+                  tabindex="0" onkeydown="" (click)="loadData(1) ">
+                Nacional</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <label><input class="form-check-input marginRadio" type="radio" name="ejemplo" [checked]="department"
+                  tabindex="0" onkeydown="" (click)="loadData(2)">
+                Departamental</label>
+            </div>
+            <br>
+            <div class="form-check form-check-inline">
+              <label><input class="form-check-input marginRadio" type="radio" name="ejemplo" [checked]="town"
+                  tabindex="0" onkeydown="" (click)="loadData(3)">
+                Municipal</label>
+            </div>
+          </div>
+          <p-multiSelect [options]="listData" optionLabel="nombre" [ngClass]="bgInput('selectItems')"
+            formControlName="selectItems" dataKey="id" filterPlaceHolder="Buscar"
+            selectedItemsLabel="{0} items seleccionados"></p-multiSelect>
+          <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+            inputName="{{ 'taxes.taxeApp' | translate }}" [control]="basicData.controls['selectItems']">
+          </app-control-messages>
+
+        </div>
+        <div class="col-12 col-md-7">
+          <label for="observations"><span class="asterisk">{{ text.asterisk }}</span>{{ "taxes.observations" | translate
+            }}</label><br>
+          <textarea cols="47" rows="4" type="text" [autoResize]="true" pInputTextarea formControlName="observations"
+            [ngClass]="bgInput('observations')">{{ observations }}</textarea>
+
+          <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+            inputName="{{ 'taxes.observations' | translate }}" [control]="basicData.controls['observations']">
+          </app-control-messages>
+        </div>
+      </div>
+      <div class="col-12" style="padding: 0 0.3em;">
+        <div class="d-flex flex-wrap justify-content-end gap--24">
+          <button type="submit" class="btn-primary btn-outline-1" (click)="cancel()" type="button">
+            {{ "cancel" | translate }}
+          </button>
+          <button type="submit" class="btn-primary" pButton label="{{ 'taxes.titleUpdate' | translate }}"></button>
+        </div>
+      </div>
+
+    </form>
+  </section>
+</main>

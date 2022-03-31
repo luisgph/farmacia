@@ -1,0 +1,173 @@
+<form (ngSubmit)="next()" [formGroup]="contactData" autocomplete="off">
+    <div class="row gx--24 gy--24">
+        <h2 class="subtitle mb--24">{{ "company.contactData" | translate }}</h2>
+        <div class="col-12 col-md-4">
+            <div class="field">
+                <label><span class="asterisk">*</span>Nombre</label>
+                <input formControlName="name" [ngClass]="bgInput('name')" placeholder="Nombre" type="text" pInputText />
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                    [control]="contactData.controls['name']" inputName="nombre"></app-control-messages>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="field">
+                <label>Número telefónico</label>
+                <p-inputMask styleClass="input-mask" [ngClass]="bgInput('phoneNumber')" formControlName="phoneNumber"
+                    [unmask]="true" [mask]="text.maskPhone" [placeholder]="text.placeholderPhone"></p-inputMask>
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                    [control]="contactData.controls['phoneNumber']" inputName="Número telefónico">
+                </app-control-messages>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="field">
+                <label><span class="asterisk">*</span>Número de celular</label>
+                <p-inputMask styleClass="input-mask" [ngClass]="bgInput('mobileNumber')" formControlName="mobileNumber"
+                    [unmask]="true" [mask]="text.maskCell" [placeholder]="text.placeholderCell"></p-inputMask>
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                    [control]="contactData.controls['mobileNumber']" inputName="Número de celular">
+                </app-control-messages>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="field">
+                <label><span class="asterisk">*</span>Correo electrónico</label>
+                <input formControlName="email" placeholder="Correo electrónico" [ngClass]="bgInput('email')"
+                    type="email" pInputText />
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                    [control]="contactData.controls['email']" inputName="correo electrónico"></app-control-messages>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="field">
+                <label><span class="asterisk">*</span>Tipo de identificación</label>
+                <p-dropdown [options]="idTypes" optionLabel="nombre" appendTo="body" formControlName="idType"
+                    placeholder="Tipo de identificación" [ngClass]="bgInput('idType', true)"></p-dropdown>
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                    [control]="contactData.controls['idType']" inputName="Tipo de identificación">
+                </app-control-messages>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <label><span class="asterisk">*</span>Número de identificación</label>
+            <input formControlName="idNumber" [ngClass]="bgInput('idNumber')" type="text"
+                placeholder="Número de identificación" pInputText />
+            <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                [control]="contactData.controls['idNumber']" inputName="Número de identificación">
+            </app-control-messages>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="field">
+                <label>Cargo en la empresa</label>
+                <input formControlName="companyRol" [ngClass]="bgInput('companyRol')" type="text"
+                    placeholder="Cargo en la empresa" pInputText />
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                    [control]="contactData.controls['companyRol']" inputName="Cargo en la empresa">
+                </app-control-messages>
+            </div>
+        </div>
+
+        <hr class="contactDataSeparator mt-4">
+
+        <h2 class="subtitle mb--24">Datos de contacto adicional</h2>
+        <div formArrayName="additionalContacts"
+            *ngFor="let additionalContact of arrayContacts.controls; let i = index;">
+            <div class="row gy--24 gx--24" [formGroupName]="i">
+                <div class="col-12 col-md-4">
+                    <div class="field">
+                        <label><span class="asterisk">*</span>Nombre</label>
+                        <input formControlName="name" [ngClass]="bgInputArray(additionalContact.get('name'))"
+                            type="text" placeholder="Nombre" pInputText />
+                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                            [control]="additionalContact.get('name')" inputName="Nombre"></app-control-messages>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="field">
+                        <label>Número telefónico</label>
+                        <p-inputMask styleClass="input-mask" [unmask]="true"
+                            [ngClass]="bgInputArray(additionalContact.get('phoneNumber'))" formControlName="phoneNumber"
+                            [mask]="text.maskPhone" [placeholder]="text.placeholderPhone"></p-inputMask>
+                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                            [control]="additionalContact.get('phoneNumber')" inputName="número teléfonico">
+                        </app-control-messages>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="field">
+                        <label><span class="asterisk">*</span>Número de celular</label>
+                        <p-inputMask styleClass="input-mask" [unmask]="true"
+                            [ngClass]="bgInputArray(additionalContact.get('mobileNumber'))"
+                            formControlName="mobileNumber" [mask]="text.maskCell" [placeholder]="text.placeholderCell">
+                        </p-inputMask>
+                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                            [control]="additionalContact.get('mobileNumber')" inputName="Número de celular">
+                        </app-control-messages>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="field">
+                        <label><span class="asterisk">*</span>Correo electrónico</label>
+                        <input formControlName="email" placeholder="Correo electrónico"
+                            [ngClass]="bgInputArray(additionalContact.get('email'))" type="email" pInputText />
+                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                            [control]="additionalContact.get('email')" inputName="correo electrónico">
+                        </app-control-messages>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="field">
+                        <label><span class="asterisk">*</span>Tipo de identificación</label>
+                        <p-dropdown [options]="idTypes" optionLabel="nombre" appendTo="body" formControlName="idType"
+                            (onChange)="updateValidators($event, i)" placeholder="Tipo de identificación"
+                            [ngClass]="bgInputArray(additionalContact.get('idType'), true)"></p-dropdown>
+                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                            [control]="additionalContact.get('idType')" inputName="Tipo de identificación">
+                        </app-control-messages>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <label><span class="asterisk">*</span>Número de identificación</label>
+                    <input formControlName="idNumber" [ngClass]="bgInputArray(additionalContact.get('idNumber'))"
+                        (keydown)="updateValidators($event, i)" type="text" placeholder="Número de identificación"
+                        pInputText />
+                    <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                        [control]="additionalContact.get('idNumber')" inputName="Número de identificación">
+                    </app-control-messages>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="field">
+                        <label>Cargo en la empresa</label>
+                        <input formControlName="companyRol"
+                            [ngClass]="bgInputArray(additionalContact.get('companyRol'))" type="text"
+                            placeholder="Cargo en la empresa" pInputText />
+                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                            [control]="additionalContact.get('companyRol')" inputName="Cargo en la empresa">
+                        </app-control-messages>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="d-flex height--100">
+                        <button type="button" class="btn-outline-3 align-self-end" (click)="deleteItem(i)" pButton
+                            label="Eliminar contacto"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex align-content-end mt--24">
+            <button type="button" class="btn-outline-1" (click)="addAdditionalContact()" pButton
+                label="Agregar contacto adicional"></button>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end gap--24 mt--24">
+        <button type="button" class="btn-outline-1" (click)="back()" pButton label="Volver"></button>
+        <button type="submit" class="btn-primary" (click)="next()" pButton [label]="btnTxt"></button>
+    </div>
+    <div class="d-flex justify-content-end gap--24 mt--24">
+        <button type="button" class="btn-outline-1" [routerLink]="['/setting/company/consult']" pButton
+            label="Cancelar proceso"></button>
+    </div>
+
+</form>

@@ -1,0 +1,152 @@
+// @import './utilities/_pxToEm';
+
+html {
+    body {
+        background-color: $clr-bgAplication;
+        font-family: 'Nunito', sans-serif;
+        // font-size: 16px;
+        font-weight: 500;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+
+        .sidebar_left {
+
+        }
+
+        .sidebar_right {
+
+        }
+
+        .main {
+            .main__title {
+                color: #004998;
+                font-size: $size24px;
+            }
+
+            .main__form {
+                .main__form__subtitle {
+                    cursor: pointer;
+                    color: #0079C8;
+                    font-size: $size12px;
+                }
+
+                .main__form__input {
+                    width: 100%;
+                    color: black;
+                    font-size: $size16px;
+                    border-radius: $size24px;
+                    padding: $size12px $size24px;
+                    border: $size1px solid #CBCBCB;
+
+                    &::placeholder {
+                        color: #C5B6B8;
+                    }
+
+                    &:focus {
+                        box-shadow: none;
+                        outline-offset: 2px;
+                        border-color: $corporativeBlue;
+                        outline: 2px dashed $corporativeBlue;
+                    }
+
+                    &[type=radio] {
+                        &:checked {
+                            width: 5px;
+                            height: 5px;
+                            outline-offset: 2px;
+                            background-image: none;
+                            outline: 1px solid green;
+                            background-color: #0072CC;
+                        }
+                    }
+                }
+
+                .main__form__label {
+                    color: $corporativeBlue;
+                    font-weight: bold;
+                    font-size: $size16px;
+                    margin-bottom: $size4px;
+
+                    .asterisk {
+                        color: #D81E05;
+                        margin-right: $size8px;
+                    }
+                }
+
+                .main__form__dropdown {
+                    .p-dropdown {
+                        width: 100%;
+                        border-radius: $size24px;
+                        border: $size1px solid #CBCBCB;
+
+                        &.p-dropdown-open {
+                            outline-offset: 2px;
+                            border-color: $corporativeBlue;
+                            outline: 2px dashed $corporativeBlue;
+                        }
+                        
+                        &.p-focus {
+                            box-shadow: none;
+                            outline-offset: 2px;
+                            border-color: $corporativeBlue;
+                            outline: 2px dashed $corporativeBlue;
+                        }
+
+                        .p-dropdown-label {
+                            border-radius: $size24px;
+                            padding: $size12px $size24px !important;
+                            background-color: red;
+                        }
+                    }
+
+                }
+
+                .main__form__calendar {
+                    .p-calendar {
+                        width: 100%;
+                        input {
+                            border-top-left-radius: $size24px;
+                            border-bottom-left-radius: $size24px;
+                        }
+
+                        button {
+                            border-top-right-radius: $size24px;
+                            border-bottom-right-radius: $size24px;
+                        }
+                    }
+                    .pi-calendar {
+                        &::before {
+                            content: url('../../../assets/icons/calendar.svg');
+                        }
+                    }
+                }
+
+                .main__form__alert__text {
+                    color: #D81E05;
+                    margin-right: $size8px;
+                }
+            }
+
+            .main__table {
+
+            }
+        }
+
+        .footer {
+
+        }
+
+        .p-dropdown-filter-container {
+            .p-dropdown-filter {
+                &:focus {
+                    box-shadow: none;
+                    outline-offset: 2px;
+                    border-color: $corporativeBlue;
+                    outline: 2px dashed $corporativeBlue;
+                }
+            }
+        }
+    }
+}

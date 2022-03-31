@@ -1,0 +1,32 @@
+<main class="mainSection">
+    <section class="container-fluid">
+        <h1 class="mainForm_title">Empresa creada</h1>
+
+        <div class="d-flex justify-content-center">
+            <span class="circle"></span>
+        </div>
+        <h2 class="subtitles">Nombre de la empresa</h2>
+        <p class="companyName">{{ companyInfo?.nombre }}</p>
+        <p><a class="link">Compañía de droguista de {{ companyInfo?.ciudad }}</a></p>
+
+        <section class="d-flex justify-content-center">
+            <div class="companyDataSection">
+                <p class="businessData">Nro Matrícula mercantil: {{ companyInfo?.matriculaMercantil }}</p>
+                <p class="nameItem">Número telefónico</p>
+                <p class="valueItem">{{ companyInfo?.telefono }}</p>
+            </div>
+            <div class="companyDataSection">
+                <p class="businessData">NIT: {{ companyInfo?.numeroIdentificacion }}</p>
+                <p class="nameItem">Número celular</p>
+                <p class="valueItem">{{ companyInfo?.lstContactoEmpresa[0].numeroCelularContacto }}</p>
+            </div>
+        </section>
+
+        <p class="email">Correo electrónico</p>
+        <p><a class="link">{{ companyInfo?.correo }}</a></p>
+        <div class="d-flex justify-content-center align-items-start">
+            <button type="button" class="btn-outline-1" routerLink="/setting/company/consult">Ir al listado de
+                empresas</button>
+        </div>
+    </section>
+</main>

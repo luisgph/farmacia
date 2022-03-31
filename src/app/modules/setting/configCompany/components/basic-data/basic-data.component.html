@@ -1,0 +1,226 @@
+<form (ngSubmit)="next()" [formGroup]="basicData" autocomplete="off">
+    <div class="row gx--24 gy--24">
+        <h2 class="subtitle mb--24">Datos básicos</h2>
+        <div class="col-12 col-md-4">
+            <div class="field">
+                <label><span class="asterisk">*</span>Nombre de la empresa</label>
+                <input formControlName="companyName"
+                    type="text"  
+                    placeholder="Nombre de la empresa"
+                    [ngClass]="bgInput('companyName')"
+                    pInputText />
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted" [control]="basicData.controls['companyName']" inputName="nombre de la empresa">
+                </app-control-messages>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="field">
+                <label><span class="asterisk">*</span>Razón social</label>
+                <input formControlName="businessName" [ngClass]="bgInput('businessName')" type="text"
+                    placeholder="Razón social" pInputText />
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                    [control]="basicData.controls['businessName']" inputName="Razón social"></app-control-messages>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="field">
+                <label><span class="asterisk">*</span>Tipo de identificación</label>
+                <p-dropdown [options]="idTypes" optionLabel="nombre" appendTo="body" formControlName="idType"
+                    placeholder="Tipo de identificación" [ngClass]="bgInput('idType', true)"></p-dropdown>
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                    [control]="basicData.controls['idType']" inputName="Tipo de identificación"></app-control-messages>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="row g-1 d-flex align-items-start">
+                <div class="col-12" [ngClass]="{'col-md-8' : !dvNumberHidden, 'col-md-12' : dvNumberHidden}">
+                    <div class="field">
+                        <label>
+                            <span class="asterisk">*</span>Número de identificación
+                        </label>
+                        <input 
+                            formControlName="idNumber" [ngClass]="bgInput('idNumber')" 
+                            type="text"
+                            placeholder="Número de identificación" 
+                            pInputText />
+                        <app-control-messages 
+                            *ngIf="isSubmitted" 
+                            class="txtErrorInput" 
+                            [isSubmitted]="isSubmitted"
+                            [control]="basicData.controls['idNumber']" inputName="Número de identificación">
+                        </app-control-messages>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4" *ngIf="!dvNumberHidden">
+                    <div class="field">
+                        <label>
+                            <span 
+                                class="asterisk">*</span>DV
+                        </label>
+                        <input 
+                            formControlName="dvNumber" 
+                            [ngClass]="bgInput('dvNumber')" 
+                            appOnlyNumbers
+                            type="text"
+                            placeholder="Código de verificación" 
+                            pInputText />
+                        <app-control-messages 
+                            *ngIf="isSubmitted" 
+                            class="txtErrorInput"
+                            [isSubmitted]="isSubmitted"
+                            [control]="basicData.controls['dvNumber']" 
+                            inputName="código de verificación">
+                        </app-control-messages>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="field">
+                <label><span class="asterisk">*</span>Número de matrícula mercantil</label>
+                <input formControlName="commercialNumber" [ngClass]="bgInput('commercialNumber')" type="text"
+                    placeholder="Número de matrícula mercantil" pInputText />
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                    [control]="basicData.controls['commercialNumber']" inputName="Número de matrícula mercantil">
+                </app-control-messages>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="field">
+                <label><span class="asterisk">*</span>Manejo de centro de costos</label>
+                <input formControlName="costControl" [ngClass]="bgInput('costControl')" type="text"
+                    placeholder="Manejo de centro de costos" pInputText />
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                    [control]="basicData.controls['costControl']" inputName="Manejo de centro de costos">
+                </app-control-messages>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="field">
+                <label><span class="asterisk">*</span>Número telefónico</label>
+                <p-inputMask [ngClass]="bgInput('phoneNumber')" [unmask]="true" formControlName="phoneNumber"
+                    [mask]="text.maskPhone" [placeholder]="text.placeholderPhone"></p-inputMask>
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                    [control]="basicData.controls['phoneNumber']" inputName="Número telefónico"></app-control-messages>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="field">
+                <label><span class="asterisk">*</span>Correo electrónico</label>
+                <input formControlName="email" [ngClass]="bgInput('email')" type="text" placeholder="Correo electrónico"
+                    pInputText />
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                    [control]="basicData.controls['email']" inputName="correo electrónico"></app-control-messages>
+            </div>
+        </div>
+    </div>
+    <h2 class="subtitle mt--24">Dirección de empresa</h2>
+    <p class="mainForm_alertText"><span>Importante:</span> Debes tener en cuenta que, para tener una mejor ubicación
+        debes diligenciar todos los campos</p>
+    <div class="row gx--24 gy--24">
+        <div class="col col-md-4">
+            <div class="field">
+                <p-dropdown [options]="streetTypes" optionLabel="nombre" appendTo="body" formControlName="streetType"
+                    placeholder="Ej: Calle" [ngClass]="bgInput('streetType', true)"></p-dropdown>
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                    [control]="basicData.controls['streetType']" inputName="Tipo de calle"></app-control-messages>
+            </div>
+        </div>
+        <div class="col">
+            <div class="field">
+                <input [ngClass]="bgInput('streetNumber')" appOnlyNumbers type="text" formControlName="streetNumber"
+                    placeholder="53" pInputText>
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                    [control]="basicData.controls['streetNumber']" inputName="Calle #"></app-control-messages>
+            </div>
+        </div>
+        <div class="col">
+            <div class="field">
+                <p-dropdown autoWidth="false" [options]="streetLetters" optionLabel="nombre" appendTo="body"
+                    formControlName="streetLetter" placeholder="J" [ngClass]="bgInput('streetLetter', true)">
+                </p-dropdown>
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                    [control]="basicData.controls['streetLetter']" inputName="Sur"></app-control-messages>
+            </div>
+        </div>
+        <div class="col">
+            <div class="field">
+                <input [ngClass]="bgInput('streetNumber2')" appOnlyNumbers type="text" formControlName="streetNumber2"
+                    placeholder="68" pInputText>
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                    [control]="basicData.controls['streetNumber2']" inputName="Calle #"></app-control-messages>
+            </div>
+        </div>
+        <div class="col">
+            <div class="field">
+                <p-dropdown [options]="streetCardinals" optionLabel="nombre" appendTo="body"
+                    formControlName="streetLetter2" placeholder="Sur" [ngClass]="bgInput('streetLetter2', true)">
+                </p-dropdown>
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"[control]="basicData.controls['streetLetter2']" inputName="Sur"></app-control-messages>
+            </div>
+        </div>
+        <div class="col">
+            <div class="field">
+                <input [ngClass]="bgInput('streetNumber3')" appOnlyNumbers type="text" formControlName="streetNumber3"
+                    placeholder="40" pInputText>
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                    [control]="basicData.controls['streetNumber3']" inputName="Calle #"></app-control-messages>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="field">
+                <label><span class="asterisk">*</span>Departamento</label>
+                <p-dropdown [options]="departments" optionLabel="nombre" [filter]="departments.length > 10"
+                    filterBy="nombre" [showClear]="true" appendTo="body" formControlName="department"
+                    placeholder="Departamento" [ngClass]="bgInput('department', true)"></p-dropdown>
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                    [control]="basicData.controls['department']" inputName="Departamento"></app-control-messages>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="field">
+                <label><span class="asterisk">*</span>Ciudad</label>
+                <p-dropdown [options]="citiesCopy" optionLabel="nombre" [filter]="citiesCopy.length > 10"
+                    filterBy="nombre" [showClear]="true" appendTo="body" formControlName="city" placeholder="Ciudad"
+                    [ngClass]="bgInput('city', true)"></p-dropdown>
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                    [control]="basicData.controls['city']" inputName="Ciudad"></app-control-messages>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="field">
+                <label><span class="asterisk">*</span>Ciudad de registro</label>
+                <p-dropdown [options]="cityDepartments" optionLabel="nombre" [filter]="cityDepartments.length > 10"
+                    filterBy="nombre" [showClear]="true" appendTo="body" formControlName="registeredCity"
+                    placeholder="Ciudad de registro" [ngClass]="bgInput('registeredCity', true)"></p-dropdown>
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                    [control]="basicData.controls['registeredCity']" inputName="Ciudad de registro">
+                </app-control-messages>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="field">
+                <label><span class="asterisk">*</span>Representante legal</label>
+                <input formControlName="legalRepresentative" [ngClass]="bgInput('legalRepresentative')" type="text"
+                    placeholder="Representante legal" pInputText />
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                    [control]="basicData.controls['legalRepresentative']" inputName="representante legal">
+                </app-control-messages>
+            </div>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="field">
+                <label><span class="asterisk">*</span>Pertenece a</label>
+                <p-dropdown [options]="belongings" optionLabel="name" appendTo="body" formControlName="belongTo"
+                    placeholder="Pertenece a" [ngClass]="bgInput('belongTo', true)"></p-dropdown>
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                    [control]="basicData.controls['belongTo']" inputName="Pertenece a"></app-control-messages>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-row-reverse gap--24 mt--24">
+        <button type="submit" class="btn-primary" pButton [label]="btnTxt"></button>
+        <button type="button" class="btn-outline-1" [routerLink]="['/setting/company/consult']" pButton
+            label="Cancelar proceso"></button>
+    </div>
+</form>

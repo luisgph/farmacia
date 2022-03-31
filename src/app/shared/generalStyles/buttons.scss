@@ -1,0 +1,21 @@
+.btn {
+    opacity: 1;
+    font-size: $size16px;
+    border-radius: $size24px !important;
+    padding: $size12px $size48px $size12px $size48px !important;
+    text-decoration: none;
+    span {
+        letter-spacing: $ltrSpace0_48px;
+    }
+    &.primaryButton {
+        background-color: $corporativeBlue !important;
+    }
+    &.defaultButton {
+        color: $corporativeBlue !important;
+        background-color: white;
+        &:hover {
+            background-color: inherit !important;
+            color: inherit !important;
+        }
+    }
+}

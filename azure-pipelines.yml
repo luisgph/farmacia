@@ -1,0 +1,131 @@
+# Node.js with Angular
+# Build a Node.js project that uses Angular.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+variables:
+    - name: System.Debug
+      value: false
+    - name: majorMinorVersion
+      value: 1.0
+          # semanticVersion counter is automatically incremented by one in each execution of pipeline
+          # second parameter is seed value to reset to every time the referenced majorMinorVersion is changed
+    - name: semanticVersion
+      value: $[counter(variables['majorMinorVersion'], 0)]
+    - name: vmImageName
+      value: 'ubuntu-latest'
+
+    - ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
+      - group: 'Prod Group Variables'
+      - name: projectName 
+        value: 'Coopidrogas.Administrative.Web.Main'
+    - ${{ elseif eq(variables['Build.SourceBranchName'], 'develop') }}:
+      - group: 'Dev Group Variables'
+      - name: projectName 
+        value: 'Coopidrogas.Administrative.Web.Development'
+    - ${{ elseif eq(variables['Build.SourceBranchName'], 'QA') }}:
+      - group: 'Test Variable Group'
+      - name: projectName 
+        value: 'Coopidrogas.Administrative.Web.QA'
+    - ${{ else }}:
+      - group: 'Dev Group Variables'
+      - name: projectName 
+        value: 'Coopidrogas.Administrative.Web.Development'
+    
+
+name: $(Build.SourceBranchName)-$(majorMinorVersion).$(semanticVersion)
+
+trigger:
+    branches:
+        include:
+            - main
+            - develop
+            - QA
+   
+pool:
+    vmImage: $(vmImageName)
+
+steps:
+    - task: NodeTool@0
+      displayName: 'Install Node.js'
+      inputs:
+          versionSpec: '16.14.x'
+
+    - task: SonarQubePrepare@5
+      displayName: 'Preparing SonarQube'
+      inputs:
+          SonarQube: 'CodeQuality IG'
+          scannerMode: CLI
+          configMode: manual
+          cliProjectKey: $(projectName)
+          cliProjectName: $(projectName)
+          extraProperties: |
+              sonar.coverage.exclusions=**
+    - task: PowerShell@2
+      condition: in(variables['Build.SourceBranchName'], 'develop', 'QA')
+      displayName: "Powershell execution for updated SONARQube"
+      inputs:
+        targetType: 'inline'
+        script: |
+          $params = "$env:SONARQUBE_SCANNER_PARAMS" -replace '"sonar.branch.name":"[\w/,-.]*"\,?'
+            Write-Host "##vso[task.setvariable variable=SONARQUBE_SCANNER_PARAMS]$params"
+
+    - ${{ if eq(variables['Build.SourceBranchName'], 'main') }}:
+      - script: |
+            npm install -g @angular/cli
+            npm install
+            ng build --configuration production
+        displayName: 'npm install and build production'
+    - ${{ elseif eq(variables['Build.SourceBranchName'], 'QA') }}:
+      - script: |
+            npm install -g @angular/cli
+            npm install
+            ng build --configuration test
+        displayName: 'npm install and build QA'
+    - ${{ else }}:
+      - script: |
+            npm install -g @angular/cli
+            npm install
+            ng build --configuration development
+        displayName: 'npm install and build dev or another'
+
+    - task: SonarQubeAnalyze@5
+      displayName: 'Analyzing the solution with SonarQube'
+
+    - task: SonarQubePublish@5
+      displayName: 'Publishing Metrics in SonarQube'
+      inputs:
+          pollingTimeoutSec: '300'
+
+    - task: replacetokens@5
+      displayName: 'Parsing replacement tokens'
+      inputs:
+          rootDirectory: $(System.DefaultWorkingDirectory)/dist/coopidrogasadministrativeweb
+          targetFiles: '**/*main*.js'
+          encoding: 'auto'
+          tokenPattern: 'default'
+          writeBOM: true
+          actionOnMissing: 'warn'
+          keepToken: true
+          actionOnNoFiles: 'continue'
+          enableTransforms: false
+          enableRecursion: false
+          useLegacyPattern: false
+          enableTelemetry: true
+          verbosity: detailed
+
+    - task: ArchiveFiles@2
+      displayName: 'Archive files'
+      inputs:
+          rootFolderOrFile: '$(System.DefaultWorkingDirectory)/dist/coopidrogasadministrativeweb'
+          includeRootFolder: false
+          archiveFile: '$(System.DefaultWorkingDirectory)/build$(Build.BuildId)-$(Build.SourceBranchName).zip'
+          archiveType: 'zip'
+          replaceExistingArchive: true
+
+    - task: PublishBuildArtifacts@1
+      displayName: 'Publishing artifacts for deployment'
+      inputs:
+          PathtoPublish: '$(System.DefaultWorkingDirectory)/build$(Build.BuildId)-$(Build.SourceBranchName).zip'
+          ArtifactName: 'drop'
+          publishLocation: 'Container'

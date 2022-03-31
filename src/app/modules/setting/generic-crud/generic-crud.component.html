@@ -1,0 +1,98 @@
+<main>
+    <app-alerts-messages [alertType]="alertType" *ngIf="showAlert" (stateAlert)="stateAlertMessege($event)"
+        [messageAlertSuccess]="messageAlertSuccess" [messageAlertError]="messageAlertError">
+    </app-alerts-messages>
+    <section class="mainForm">
+        <form [formGroup]="basicData">
+            <section class="row mainForm_section">
+                <div class="col">
+                    <div class="d-lg-flex d-md-flex d-blok justify-content-between">
+                        <div class="justify-content-start">
+                            <h1 class="mainForm_title">{{ title }}</h1>
+                        </div>
+                        <div class="justify-content-end align-self-start">
+                            <button type="submit" class="btn-outline-1" pButton (click)="create()"
+                                [hidden]="!isSectionEdit">{{ labelCreate }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="row g-3" *ngIf="!isSectionEdit">
+                <div class="col-12">
+                    <div class="field">
+                        <label><span class="asterisk">{{ constText.asterisk }}</span>{{ tableObject.name }}</label>
+                        <input formControlName="nameField" [ngClass]="bgInput('nameField')" type="text"
+                            placeholder="{{ tableObject.placeHolderName }}" pInputText maxlength="8000" />
+                        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                            [control]="basicData.controls['nameField']" inputName="{{ tableObject.name }}">
+                        </app-control-messages>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="d-flex flex-wrap justify-content-end gap--24 ">
+                        <button type="submit" class="btn-outline-1" pButton (click)="cancel()">{{ "cancel" | translate
+                            }}
+                        </button>
+                        <button type="submit" class="btn-primary" pButton (click)="save()">{{ labelCreateUpdate }}
+                        </button>
+                    </div>
+                </div>
+            </section>
+            <section class="row  g-3" *ngIf="isSectionEdit">
+                <div class="col">
+                    <p-table #dt dataKey="id" [value]="dataBasicCatalogs" responsiveLayout="stack" [paginator]="true"
+                        [rows]="10" [rowsPerPageOptions]="[10,25,50]" [globalFilterFields]="['id','nombre']">
+                        <ng-template pTemplate="caption">
+                            <h2>{{ "results" | translate}}</h2>
+
+                            <span class="float-end table-search">
+                                <button type="button" pButton pRipple icon="pi pi-file" (click)="exportExcelFile()"
+                                    class="btn-outline-1" [pTooltip]="toolTipExport" tooltipPosition="bottom"
+                                    [hidden]="!exportExcel"></button>
+                                <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+                                    placeholder="{{ placeHolderSearch }}" class="button_margin" />
+                                <i class="pi pi-search"></i>
+                            </span>
+                        </ng-template>
+
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th scope="col" pSortableColumn="id">{{tableObject.code}}
+                                    <p-sortIcon field="id"></p-sortIcon>
+                                    <p-columnFilter type="text" field="id" display="menu" class="ml-auto">
+                                    </p-columnFilter>
+                                </th>
+                                <th scope="col" pSortableColumn="nombre">{{tableObject.name}}
+                                    <p-sortIcon field="nombre"></p-sortIcon>
+                                    <p-columnFilter type="text" field="nombre" display="menu" class="ml-auto">
+                                    </p-columnFilter>
+                                </th>
+                                <th scope="col" class="columnAction">{{ "actions" | translate}}</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-basicCatalogs>
+                            <tr>
+                                <td>{{basicCatalogs.id}}</td>
+                                <td>{{basicCatalogs.nombre}}</td>
+                                <td>
+                                    <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                        <button pButton pRipple icon="pi pi-pencil" class="p-button-edit"
+                                            (click)="editBasicCatalogs(basicCatalogs)"></button>
+                                        <button pButton pRipple icon="pi pi-trash" class="p-button-delete"
+                                            (click)="deleteBasicCatalogs(basicCatalogs)"></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="8">{{ "notFound" | translate }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </section>
+        </form>
+    </section>
+</main>

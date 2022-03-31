@@ -1,0 +1,61 @@
+<main>
+  <section class="mainForm p--24">
+    <h1 class="mainForm_title">{{ "regimeType.titleUpdate" | translate }}</h1>
+    <form (ngSubmit)="next()" [formGroup]="basicData" class="row g-3">
+      <div class="col-12 col-md-4">
+        <label for="code"><span class="asterisk">{{ text.asterisk }}</span>{{ "nameCode" | translate }}</label>
+        <input type="text" aria-describedby="username1-help" pInputText placeholder="{{ 'nameCode' | translate }}"
+          value="{{ code }}" [disabled]="!showField" />
+        <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+          [control]="basicData.controls['code']">
+        </app-control-messages>
+      </div>
+      <div class="col-12 col-md-4">
+        <label for="name"><span class="asterisk">{{ text.asterisk }}</span>{{ "name" | translate }}</label>
+        <input type="text" aria-describedby="username1-help" pInputText
+          placeholder="{{ 'companyType.placeHolderName' | translate }}" value="{{ name }}" [disabled]="!showField" />
+        <app-control-messages inputName="{{ 'taxes.taxeName' | translate }}" *ngIf="isSubmitted" class="txtErrorInput"
+          [isSubmitted]="isSubmitted" [control]="basicData.controls['name']"></app-control-messages>
+      </div>
+      <div class="col-12 col-md-4">
+        <label> {{ "nameState" | translate }}</label>
+        <div class="field">
+          <div class="check">
+            <div class="form-check form-check-inline">
+              <label><input class="form-check-input marginRadio" onkeydown="" name="estado" type="radio"
+                  [checked]="state1" tabindex="0" (click)="estadoC(true)" (change)="showTextArea = !showTextArea" />
+                {{
+                "nameActive" | translate
+                }} </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <label><input class="form-check-input marginRadio" onkeydown="" name="estado" type="radio"
+                  [checked]="state2" tabindex="0" (click)="estadoC(false)" (change)="showTextArea = !showTextArea" />
+                {{
+                "nameInactive" | translate
+                }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12">
+        <label for="observations"><span class="asterisk">{{ text.asterisk }}</span>{{ "taxes.observations" | translate
+          }} </label><br>
+        <textarea class="w-100 textArea" formControlName="observations" [ngClass]="bgInput('observations')"
+          maxlength="8000" cols="30" rows="5" [autoResize]="true" pInputTextarea>{{ observation }}</textarea>
+
+        <app-control-messages inputName="{{ 'taxes.observations' | translate }}" *ngIf="isSubmitted"
+          class="txtErrorInput" [isSubmitted]="isSubmitted" [control]="basicData.controls['observations']">
+        </app-control-messages>
+      </div>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn-primary btn-outline-1" (click)="cancel()" type="button">
+          {{ "cancel" | translate }}
+        </button>
+        <button type="submit" class="btn-primary" pButton>
+          {{ "regimeType.titleUpdate" | translate }}
+        </button>
+      </div>
+    </form>
+  </section>
+</main>

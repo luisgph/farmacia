@@ -1,0 +1,27 @@
+<app-header></app-header>
+
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <app-sidebars></app-sidebars>
+    </div>
+    <div id="layoutSidenav_content">
+        <div id="content">
+            <div class="container-fluid">
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                </div>
+                <div class="row">
+                    <!-- Principal -->
+                    <div class="col-lg-9">
+                        <router-outlet></router-outlet>
+                    </div>
+
+                    <!-- Sidebar Lateral -->
+                    <div class="col-lg-3 Lateralsidebar">
+                        <app-sidebar-lateral></app-sidebar-lateral>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <app-footer></app-footer>
+    </div>
+</div>

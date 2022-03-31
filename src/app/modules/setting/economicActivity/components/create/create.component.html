@@ -1,0 +1,35 @@
+<main>
+  <section class="mainForm p--24">
+    <h1 class="mainForm_title">{{ "economicActivities.titleCreate" | translate }}</h1>
+    <form (ngSubmit)="next()" [formGroup]="basicData" class="row g-3">
+      <div class="col-12 col-md-4">
+        <label for="code"><span class="asterisk">{{ text.asterisk }}</span>
+          {{ "economicActivities.code" | translate}}</label>
+        <input type="text" aria-describedby="username1-help" pInputText formControlName="code"
+          placeholder="{{ 'economicActivities.placeholderCode' | translate }}" [ngClass]="bgInput('code')"
+          appOnlyNumbers />
+        <app-control-messages [control]="basicData.controls['code']"
+          inputName="{{ 'economicActivities.code' | translate }}" *ngIf="isSubmitted" class="txtErrorInput"
+          [isSubmitted]="isSubmitted"></app-control-messages>
+      </div>
+      <div class="col-12 col-md-8">
+        <label>
+          <span class="asterisk">{{ text.asterisk }}</span>{{ "economicActivities.description" | translate }}</label>
+        <input [ngClass]="bgInput('description')" type="text" aria-describedby="username1-help" pInputText
+          formControlName="description" placeholder="{{ 'economicActivities.description' | translate }}" />
+        <app-control-messages [control]="basicData.controls['description']"
+          inputName="{{ 'economicActivities.description' | translate }}" *ngIf="isSubmitted" class="txtErrorInput"
+          [isSubmitted]="isSubmitted">
+        </app-control-messages>
+      </div>
+      <div class="d-flex flex-wrap justify-content-end gap--24">
+        <button class="btn-primary btn-outline-1" (click)="cancel()" type="button">
+          {{ "cancel" | translate }}
+        </button>
+        <button type="submit" class="btn-primary" pButton>
+          {{ "economicActivities.btn" | translate }}
+        </button>
+      </div>
+    </form>
+  </section>
+</main>

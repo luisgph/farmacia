@@ -1,0 +1,90 @@
+input[type=radio]:disabled {    
+    background-color: #FFFFFF !important;
+    &:checked{
+        background-color: #333B3C !important;
+    }
+}
+
+input[type=file]{
+    display: none;    
+}
+
+.marginTop{
+    margin-top: 1em;
+}
+
+.hoverFile:disabled{
+    border-color: #CCCCCC;
+    color: #6C6E71;
+    background-color: #ffffff;
+    border-radius: 3em 0 0 3em;
+    &+span{
+        background-color: #00498A;
+        color: #ffffff;
+        border: #00498A;
+        border-radius: 0 3em 3em 0;
+        &:hover {
+            background-color: #0E2239;
+            color: #B9D0E9;
+        }
+    }
+}
+
+.marginDetail{
+    border-radius: 1em;
+    background-color: #F4F4F4;
+    padding: 24px;
+    border: 1px solid #CCCCCC;
+}
+
+.lineCompany{
+    height: 2px;
+    background-color: #00335B;
+    margin-left: 8%;
+    margin-top: -1em;
+    opacity: 1;
+}
+
+.roundIcon {    
+    span {
+        font-size: 2.1em;
+        margin-top: 13px;
+    }
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    text-align: center;
+    text-decoration: none;
+    justify-content: center;
+    background-color: #00335B;
+    border: 1px solid #00335B;
+    color: #FFFFFF;    
+}
+
+.marginDetailTitle {
+    font-weight: bold;
+    font-size: 24px;
+    color: #00335B;
+    letter-spacing: -0.045em;
+    margin-top: 20px;
+}
+
+.styleConten{
+    margin-top: 2em;
+    margin-left: 7%;
+}
+
+.iconQuestion{
+    font-size: 0.944em;
+    color: #DD5710;
+    margin-left: 0.313em;
+}
+
+.marginTopRadio{
+    margin-top: -1em;
+}
+
+.alert{
+    margin: 0;
+    margin-bottom: 1em;
+}

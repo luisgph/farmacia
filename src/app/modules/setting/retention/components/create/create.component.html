@@ -1,0 +1,197 @@
+<main>
+    <section>
+      <div class="alert alert-success alert-dismissible fade show" role="alert" *ngIf="isAlertSuccess">
+          {{ messageAlertSuccess }}
+      </div>
+      <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="isAlertError">
+          {{ messageAlertError }}
+      </div>
+    </section>
+
+    <section class="mainForm p--24">
+        <section class="row mainForm_section">
+            <div class="col">
+                <div class="d-lg-flex d-md-flex d-blok justify-content-between">
+                    <div class="justify-content-start">
+                        <h1 class="mainForm_title">{{titleRetention}}</h1>
+                    </div>
+
+                    <div *ngIf="!isCreate">
+                        <div class="justify-content-end align-self-start">
+                          <button class="btn btn-outline-1" pButton (click)="isCreateRetention(true)" 
+                                  label="{{ 'retention.titleCreate' | translate }}"></button>
+                        </div>    
+                    </div>
+                </div>
+            </div>
+            
+            <div *ngIf="isCreate">
+                <form (ngSubmit)="saveForm()" [formGroup]="retentionData" autocomplete="off">
+                  <div class="row mb-3">
+                      <div class="col-md-4">
+                          <div class="field">
+                              <label><span class="asterisk">{{text.asterisk}}</span>
+                                           {{"retention.retentionBasisConcept" | translate }}</label>
+                              <p-dropdown [options]="listRetentionRasis" optionLabel="nombre" appendTo="body"
+                                          formControlName="idRetentionRasis" 
+                                          [ngClass]="bgInput('idRetentionRasis', true)"
+                                          placeholder="{{'retention.retentionBasisConcept' | translate}}" 
+                                          [filter]="true" filterBy="nombre" [showClear]="true">
+                              </p-dropdown> 
+                              <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                    [isSubmitted]="isSubmitted" 
+                                                    [control]="retentionData.controls['idRetentionRasis']" 
+                                                    inputName="{{'retention.retentionBasisConcept' | translate}}">
+                              </app-control-messages>
+                          </div>
+                      </div>
+
+                      <div class="col-md-4">
+                          <div class="field">
+                              <label><span class="asterisk">{{text.asterisk}}</span>
+                                     {{"retention.basedUVT" | translate}}</label>
+                              <input type="number" formControlName="basedUVT" 
+                                     placeholder="{{'retention.basedUVT' | translate}}" 
+                                     [ngClass]="bgInput('basedUVT')" pInputText 
+                                     appTypeNumbers="nature,9"/>
+                              <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                    [isSubmitted]="isSubmitted" 
+                                                    [control]="retentionData.controls['basedUVT']" 
+                                                    inputName="{{'retention.basedUVT' | translate}}">
+                              </app-control-messages>
+                          </div>
+                      </div>
+
+                      <div class="col-md-4">
+                          <div class="field">
+                              <label>{{ "retention.basedPesos" | translate }}</label>
+                              <input type="number" formControlName="basedPesos"
+                                     placeholder="{{'retention.basedPesos' | translate}}"
+                                     appTypeNumbers="decimal,8"/>
+                          </div>
+                      </div>
+                  </div>
+
+                  <div class="row mb-3">
+                      <div class="col-md-4">
+                          <div class="field">
+                            <label>{{ "retention.percentage" | translate }}</label>
+                            <input type="number" formControlName="percentage"
+                                placeholder="{{'retention.percentage' | translate}}" 
+                                appTypeNumbers="decimal,8"/>                               
+                          </div>
+                      </div>
+
+                      <div class="col-md-4">
+                          <div class="field">
+                              <label>{{ "retention.accountingAccount" | translate }}</label>
+                              <p-dropdown [options]="listLedgerAccoun" optionLabel="nombre" appendTo="body"
+                                          formControlName="idLedgerAccount" [filter]="true" filterBy="nombre"
+                                          placeholder="{{'retention.accountingAccount' | translate}}"
+                                          [showClear]="true">
+                              </p-dropdown> 
+                              <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" 
+                                                    [isSubmitted]="isSubmitted" 
+                                                    [control]="retentionData.controls['idLedgerAccount']" 
+                                                    inputName="{{'retention.accountingAccount' | translate}}">
+                              </app-control-messages>
+                          </div>
+                      </div>
+                      <div class="col-md-4"></div>    
+                  </div>
+
+                  <div class="col-12">
+                        <div class="d-flex flex-wrap justify-content-end gap--24">
+                            <button type="submit" class="btn-outline-1" pButton 
+                                    (click)="isCreateRetention(false)">{{ "cancel" | translate }}</button>
+                            <button type="submit" class="btn-primary" pButton 
+                                    label="{{'retention.createRetention' | translate}}"></button>
+                        </div>
+                  </div>
+                </form>
+            </div>            
+        </section>    
+        <section class="row" *ngIf="!isCreate">
+            <div class="col">
+                <p-table #dt dataKey="codigo" [value]="retentionListTable" [rows]="10" [paginator]="true"
+                         [rowsPerPageOptions]="[10,25,50]" [filterDelay]="0" [rowHover]="true" 
+                         currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                         [globalFilterFields]="['baseRetencion','baseUVT','porcentaje','nombreEstado']"
+                         responsiveLayout="stack">
+                    <ng-template pTemplate="caption">
+                        <h2>{{ "results" | translate}}</h2>
+                        <span class="float-end table-search">
+                            <input pInputText type="text" 
+                                   (input)="applyFilterGlobal($event, 'contains')"  
+                                   placeholder="{{ 'search' | translate}}"/>
+                            <i class="pi pi-search"></i>
+                        </span>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th scope="col" pSortableColumn="baseRetencion">
+                                {{ "retention.retentionBasisConcept" | translate }}
+                                <p-sortIcon field="baseRetencion"></p-sortIcon>
+                                <p-columnFilter type="text" field="baseRetencion" display="menu" class="ml-auto">
+                                </p-columnFilter>
+                            </th>
+                            <th scope="col" pSortableColumn="baseUVT">
+                                {{ "retention.basedUVT" | translate }}
+                                <p-sortIcon field="baseUVT"></p-sortIcon>
+                                <p-columnFilter type="text" field="baseUVT" display="menu" class="ml-auto">
+                                </p-columnFilter>
+                            </th>
+                            <th scope="col" pSortableColumn="porcentaje">
+                                {{ "retention.percentage" | translate }}
+                                <p-sortIcon field="porcentaje"></p-sortIcon>
+                                <p-columnFilter type="text" field="porcentaje" display="menu" class="ml-auto">
+                                </p-columnFilter>
+                            </th>
+                            <th scope="col" pSortableColumn="nombreEstado">
+                                {{'nameState' | translate}}
+                                <p-sortIcon field="nombreEstado"></p-sortIcon>
+                                <p-columnFilter type="text" field="nombreEstado" display="menu" class="ml-auto">
+                                </p-columnFilter>
+                            </th>
+                            <th class="width-8rem" scope="col">{{'actions' | translate}}</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-customer>
+                        <tr class="p-selectable-row">
+                            <td>
+                                <span class="p-column-title">{{"retention.retentionBasisConcept" | translate }}</span>
+                                {{customer.baseRetencion}}
+                            </td>
+                            <td>
+                                <span class="p-column-title">{{"retention.basedUVT" | translate }}</span>
+                                {{customer.baseUVT}}
+                            </td>
+                            <td>
+                              <span class="p-column-title">{{"retention.percentage" | translate }}</span>
+                              {{customer.porcentaje}}
+                            </td>
+                            <td>
+                                <span class="p-column-title">{{'nameState' | translate}}</span>
+                                <div>
+                                    <span class="badge rounded-pill" 
+                                        [ngClass]="{'bg-success': customer.estado ,'bg-secondary': !customer.estado}">
+                                        {{customer.estado | state}}</span>
+                                </div>
+                            </td>                           
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                    <button pButton pRipple icon="pi pi-pencil" class="p-button-edit"></button>
+                                    <button pButton pRipple icon="pi pi-trash" class="p-button-delete" 
+                                            (click)="deleteRetention(customer)"></button>
+                                </div>
+                            </td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr><td colspan="8">{{ "notFound" | translate }}</td></tr>
+                    </ng-template>
+                </p-table>
+            </div>            
+        </section>
+    </section>
+</main>

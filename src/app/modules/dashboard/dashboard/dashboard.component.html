@@ -1,0 +1,114 @@
+<main>
+  <section class="mainForm row">
+    <h1 class="mainForm_title">{{ "functionList" | translate }}</h1>
+    <section class="boxSteps">
+
+      <div id="cont-btn-obligaciones">
+        <a [routerLink]="['/setting/company/consult']" class ="sombreado">
+          <div class="cajita">
+            <span class="material-icons">
+              business
+              </span>
+                        <strong>{{ "companyName" | translate }}</strong>
+          </div> 
+        </a>      
+        <a [routerLink]="['/setting/pharmacy']" class ="sombreado">
+          <div class="cajita">
+            <span class="material-icons">
+              medication
+              </span>
+                      <strong>{{ "pharmacyName" | translate }}</strong>
+        </div> 
+        </a>      
+        <a [routerLink]="['/setting/companyType']" class ="sombreado">
+          <div class="cajita">
+            <span class="material-icons">
+              add_business
+              </span>
+                      <strong>{{ "companyTypeName" | translate }}</strong>
+        </div> 
+        </a>      
+        <a [routerLink]="['/setting/providerType']" class ="sombreado">
+          <div class="cajita">
+            <span class="material-icons">
+              people
+              </span>
+                      <strong>{{ "providerTypeName" | translate }}</strong>
+        </div> 
+        </a>      
+        <a [routerLink]="['/setting/disabledCompanyType']" class ="sombreado">
+          <div class="cajita">
+            <span class="material-icons">
+              domain_disabled
+              </span>
+                      <strong>{{ "disabledCompanyTypeName" | translate }}</strong>
+        </div> 
+        </a>      
+        <a [routerLink]="['/setting/economicActivityList']" class ="sombreado">
+          <div class="cajita">
+            <span class="material-icons">
+              monetization_on
+              </span>
+              <strong>{{ "economicActivitiesName" | translate }}</strong>
+        </div> 
+        </a>
+        <a [routerLink]="['/setting/rateIvaType']" class ="sombreado">
+          <div class="cajita">
+            <span class="material-icons">
+              trending_up
+              </span>
+                      <strong>{{ "ivaRateTypeName" | translate }}</strong>
+        </div> 
+        </a> 
+        <a [routerLink]="['/setting/ivaRates']" class ="sombreado">
+          <div class="cajita">
+            <span class="material-icons">
+              data_thresholding
+              </span>
+                      <strong>{{ "ratesName" | translate }}</strong>
+        </div> 
+        </a>      
+        <a [routerLink]="['/setting/regimeTypeList']" class ="sombreado">
+          <div class="cajita">
+            <span class="material-icons">
+              gavel
+              </span>
+                      <strong>{{ "regimeTypeName" | translate }}</strong>
+        </div> 
+        </a>      
+        <a [routerLink]="['/setting/taxList']" class ="sombreado">
+          <div class="cajita">
+            <span class="material-icons">
+              account_balance
+              </span>
+                      <strong>{{ "taxName" | translate }}</strong>
+        </div> 
+        </a>      
+        <a [routerLink]="['/setting/retentionCreate']" class ="sombreado">
+          <div class="cajita">
+            <span class="material-icons">
+              assured_workload
+              </span>
+                      <strong>{{ "retentionName" | translate }}</strong>
+        </div> 
+        </a>    
+        <a [routerLink]="" class ="sombreado">
+          <div class="cajita">
+            <span class="material-icons">
+              stars
+              </span>
+                      <strong>{{ "optionName" | translate }}</strong>
+        </div> 
+        </a>  
+    </div>
+    
+     </section>
+
+    <router-outlet></router-outlet>
+  </section>
+
+
+ 
+
+
+</main>

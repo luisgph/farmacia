@@ -1,0 +1,123 @@
+<main>
+    <app-regimeTypeUpdate [param]="data" (showMessage)="getBoolOk($event)" (showMessageBad)="getBoolBad($event)"
+        *ngIf="show"></app-regimeTypeUpdate>
+    <section>
+        <div class="alert alert-success d-flex align-items-center fade show" role="alert" *ngIf="isAlertSuccess">
+            <span class="material-icons-outlined">check_circle</span>
+            {{ messageAlertSuccess }}
+        </div>
+        <div class="alert alert-danger d-flex align-items-center" role="alert" *ngIf="isAlertError">
+            <span class="material-icons-outlined">highlight_off</span>
+            {{ messageAlertError }}
+        </div>
+    </section>
+    <section class="mainForm p--24 mainForm_section" *ngIf="!show">
+        <div class="d-lg-flex d-md-flex d-blok justify-content-between">
+            <div class="justify-content-start">
+                <h1 class="mainForm_title">{{ "regimeType.titleList" | translate }}</h1>
+            </div>
+            <div class="justify-content-end align-self-start">
+                <button type="submit" class="btn-primary btn-outline-1" pButton (click)="create()">
+                    {{ "regimeType.titleCreate" | translate }}
+                </button>
+            </div>
+        </div>
+        <form (ngSubmit)="next()" [formGroup]="basicData" class="row g-3">
+
+            <div class="col-12 col-md-4">
+                <label for="code">{{ "regimeType.code" | translate }}</label>
+                <input type="text" aria-describedby="username1-help" pInputText formControlName="code"
+                    placeholder="{{ 'regimeType.codePlaceholder' | translate }}" [ngClass]="bgInput('code')" />
+                <app-control-messages *ngIf="isSubmitted" class="txtErrorInput" [isSubmitted]="isSubmitted"
+                    [control]="basicData.controls['code']"></app-control-messages>
+            </div>
+            <div class="col-12 col-md-4">
+                <label for="description">{{ "regimeType.name" | translate
+                    }}</label>
+                <input type="text" aria-describedby="username1-help" pInputText formControlName="description"
+                    placeholder="{{ 'regimeType.namePlaceholder' | translate }}" [ngClass]="bgInput('description')" />
+                <app-control-messages inputName="{{ 'regimeType.name' | translate }}" *ngIf="isSubmitted"
+                    class="txtErrorInput" [isSubmitted]="isSubmitted" [control]="basicData.controls['description']">
+                </app-control-messages>
+            </div>
+            <div class="col-12 col-md-4">
+                <label> {{ "nameState" | translate }}</label>
+                <div class="field ">
+                    <div class="form-check form-check-inline">
+                        <label><input class="form-check-input marginRadio" type="radio" value="active"
+                                formControlName="state" id="active" /> {{ "nameActive" | translate }}</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <label><input class="form-check-input marginRadio" id="inactive" type="radio" [value]="inactive"
+                                formControlName="state" />{{"nameInactive" | translate }} </label>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="p-element btn-primary p-button p-component" pButton
+                    label="{{ 'regimeType.titleList' | translate }}" (click)="search()"></button>
+            </div>
+            <p-table #dt dataKey="id" [value]="idTypes" responsiveLayout="stack" [paginator]="true" [rows]="10"
+                [rowsPerPageOptions]="[10,25,50]" [globalFilterFields]="['codigo','nombre', 'nombreEstado']">
+                <ng-template pTemplate="caption">
+                    <h2>{{ "results" | translate}}</h2>
+
+                    <span class="float-end table-search">
+                        <input pInputText type="text" (input)="applyFilterGlobal($event, 'contains')"
+                            placeholder="{{ 'search' | translate}}" />
+                        <i class="pi pi-search"></i>
+                    </span>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th scope="col" pSortableColumn="codigo">{{ "nameCode"| translate }}
+                            <p-sortIcon field="codigo"></p-sortIcon>
+                            <p-columnFilter type="text" field="codigo" display="menu" class="ml-auto"></p-columnFilter>
+                        </th>
+                        <th scope="col" pSortableColumn="nombre">{{ "name" | translate }}
+                            <p-sortIcon field="nombre"></p-sortIcon>
+                            <p-columnFilter type="text" field="nombre" display="menu" class="ml-auto"></p-columnFilter>
+                        </th>
+                        <th scope="col" pSortableColumn="nombreEstado">{{ "nameState" | translate }}
+                            <p-sortIcon field="nombreEstado"></p-sortIcon>
+                            <p-columnFilter type="text" field="nombreEstado" display="menu" class="ml-auto">
+                            </p-columnFilter>
+                        </th>
+                        <th scope="col" class="tableStyle">{{ "actions" | translate}}</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-idType>
+                    <tr>
+                        <td>{{idType.codigo}}</td>
+                        <td>{{idType.nombre}}</td>
+                        <td>
+
+                            <span class="p-column-title">{{'nameState' | translate}}</span>
+                            <div>
+                                <span class="badge rounded-pill "
+                                    [ngClass]="{'bg-success': idType.estado ,'bg-secondary': !idType.estado}">
+                                    {{idType.estado | state}}</span>
+                            </div>
+
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                                <button pButton pRipple icon="pi pi-pencil" class="p-button-edit"
+                                    (click)="update(idType)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-delete"
+                                    (click)="deleteCell(idType)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8">{{ "notFound" | translate }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </form>
+    </section>
+</main>

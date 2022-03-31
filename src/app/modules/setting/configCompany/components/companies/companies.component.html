@@ -1,0 +1,13 @@
+<main>
+    <section class="mainForm p--24">
+        <div class="row">
+            <h1 class="mainForm_title">{{ mainTxt }}</h1>
+        </div>
+        <section class="row mb-5">
+            <div class="boxSteps">
+                <p-steps [model]="items" [(activeIndex)]="activeIndex"></p-steps>
+            </div>
+        </section>
+        <router-outlet></router-outlet>
+    </section>
+</main>

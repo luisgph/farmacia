@@ -1,0 +1,12 @@
+<section>
+    <div class="alert alert-success d-flex align-items-center animated" [class.fadeOut]="isFadeOut" role="alert"
+        *ngIf="isAlertSuccess">
+        <span class="material-icons-outlined">check_circle</span>
+        {{ messageAlertSuccess }}
+    </div>
+    <div class="alert alert-danger d-flex align-items-center animated" [class.fadeOut]="isFadeOut" role="alert"
+        *ngIf="isAlertError">
+        <span class="material-icons-outlined">highlight_off</span>
+        {{ messageAlertError}}
+    </div>
+</section>
